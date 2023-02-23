@@ -3,17 +3,18 @@ import Car from "../../../models/car";
 
 import { faker } from '@faker-js/faker';
 
-const handler = async function handler(req:any, res:any) {
-    
+const handler = async function handler(req: any, res: any) {
+
   if (req.method == "GET") {
-    
-    User.find({}).lean().exec(function(error, records) {
-        records.forEach(function(record) {
-            let car = new Car({carnumber:`${faker.vehicle.manufacturer()} ${faker.vehicle.model() }`, owner:record._id})
-            car.save();
-        });
+
+
+    User.find({}).lean().exec(function (error, records) {
+      records.forEach(function (record) {
+        let car = new Car({ carnumber: `${faker.vehicle.manufacturer()} ${faker.vehicle.model()}`, owner: record._id, phonenumber: faker.phone.number('501-###-###') })
+        car.save();
+      });
     });
-    
+
     return res.status(200).send("Fake Cars Data Generated!");
   }
   return res.status(404).send("");

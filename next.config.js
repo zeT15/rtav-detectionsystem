@@ -17,6 +17,7 @@ module.exports = {
         'react-dom': 'preact/compat',
       })
     }
+    config.resolve.fallback = { ...config.resolve.fallback, net: false, os: false, tls: false }
     return config
   },
 }

@@ -14,7 +14,6 @@ import Typography from '@mui/material/Typography';
 import {sidebardata} from '../../utils/SidebarData';
 import Link from 'next/link';
 
-
 const drawerWidth = 240;
 
 interface Props {
@@ -29,7 +28,11 @@ export default function Sidebar(props:any, data:Props){
 
     const { window } = data;
     const router = useRouter();
-
+    React.useEffect(() => {
+        if (props.layoutData.user._id == "" || props.layoutData.user._id == undefined || props.layoutData.user._id == null) {
+            router.push("/auth/login")
+        }
+        }, []);
   const drawer = (
     <div>
       <Toolbar>
@@ -41,8 +44,10 @@ export default function Sidebar(props:any, data:Props){
       <Box key={group.key}>
         <Divider />
         <List>
-            {group.data.map((item:any)=>
-                <ListItem 
+            {group.data.map((item:any)=> {
+                const role = item.role
+                if(role.includes(props.layoutData.user.usertype))
+                return <ListItem 
                     key={item.key} 
                     disablePadding                       
                     className={(router.query.flag !== item.key ? "opacity-75" : "selected")}>
@@ -53,7 +58,7 @@ export default function Sidebar(props:any, data:Props){
                         <ListItemText primary={item.name} />
                     </ListItemButton>
                 </ListItem>
-            )}     
+            })}     
         </List>
       </Box>
       )}

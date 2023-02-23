@@ -1,5 +1,6 @@
 import User from "../../../models/user";
 import Report from "../../../models/report";
+import Car from "../../../models/car";
 import formidable from "formidable";
 import fs from "fs";
 import { faker } from '@faker-js/faker';
@@ -23,7 +24,6 @@ const handler = async function handler(req:any, res:any) {
       const today = new Date();
       const priorDate = new Date(new Date().setDate(today.getDate() - 30));
       const d = priorDate.valueOf() - prevdate.valueOf();
-      console.log(d);
       if(user.reportlimit == user.reportnumber && d < 0){
 
         return res.status(400).send({error: "You can't report now!"})
@@ -34,28 +34,34 @@ const handler = async function handler(req:any, res:any) {
         user.startdate = new Date();
 
       }
-      const fileinfo = await saveFile(files.file)
-      user.reportnumber = reportnumber;
-      await user.save()
+      const car = await Car.findOne({carnumber:fields.carnumber})
+      if(car) {
+        const fileinfo = await saveFile(files.file)
+        user.reportnumber = reportnumber;
+        await user.save()
 
-      User.findOne({email: fields.useremail,}).exec(
-        function (err, result) {
-            // Tada! random user
-            let report = new Report({
-                reportowner:result._id,
-                reporttype:"standard",
-                reportmedia:{filepath:fileinfo.path, filetype:fileinfo.type}, 
-                reportgps:`${faker.address.latitude()} ${faker.address.longitude()}`,
-                reportdate:new Date(),
-                reportedcar: fields.carnumber,  
-                reportfine:20,
-                sendedwhatsapp:"",
-                reportflag:"new"
-            });
-            report.save();
-      })
+        User.findOne({email: fields.useremail,}).exec(
+          function (err, result) {
+              // Tada! random user
+              let report = new Report({
+                  reportowner:result._id,
+                  reporttype:"standard",
+                  reportmedia:{filepath:fileinfo.path, filetype:fileinfo.type}, 
+                  reportgps:`${faker.address.latitude()} ${faker.address.longitude()}`,
+                  reportdate:new Date(),
+                  reportedcar: fields.carnumber,  
+                  reportfine:20,
+                  sendedwhatsapp:"",
+                  reportflag:"new"
+              });
+              // report.save();
+        })
+        res.json({state:"success", message:"Successfully Added"})
+      } 
+      else {
+        res.json({state:"error", message: "Not found Car Number"}) 
+      }
       
-      res.json({message:"Successfully Added"})
     });
 
 };

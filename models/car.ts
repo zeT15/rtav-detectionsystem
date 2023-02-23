@@ -4,11 +4,12 @@ import User from "./user";
 
 var carSchema = new Schema(
     {
+      phonenumber:{type: String},
       carnumber: {
         type: String,
         required: true,
       },
-      owner: {type: mongoose.Types.ObjectId, ref: "User"}
+      owner: {type: mongoose.Types.ObjectId, ref: "User"},
     },
     { timestamps: true }
 );

@@ -35,6 +35,10 @@ var userSchema = new Schema(
       type: String,
       required: true,
     },
+    permission: {
+      type: String,
+      requires: true,
+    }
   },
   { timestamps: true }
 );

@@ -60,8 +60,16 @@ export default function Common ({children, layoutData}:InferProps<typeof Common.
                 headers: { "Content-Type": "multipart/form-data" },
             };
 
-            await axios.post("/api/common/report", formData, options).then(res=>{
-                toast.success(res.data.message)
+            await axios.post("/api/common/report", formData, options).then( res => {
+                switch (res.data.state) {
+                    case "error":
+                        toast.error(res.data.message)
+                        break;
+                    case "success":
+                        toast.success(res.data.message)
+                    default:
+                        break;
+                }
                 getreportinfo();
             })
 

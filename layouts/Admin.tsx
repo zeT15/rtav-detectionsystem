@@ -20,10 +20,9 @@ export default function Admin({children, layoutData}:InferProps<typeof Admin.pro
       setMobileOpen(!mobileOpen);
     };
     React.useEffect(() => {
-        console.log("Admin",layoutData);
         if (!layoutData.user) 
             router.push("/auth/login")
-        else if (layoutData.user.usertype != "admin"){
+        else if (layoutData.user.usertype != "admin" && layoutData.user.usertype != "employeer"){
             router.push("/common/mainboard")
         }
     }, []);
@@ -33,7 +32,7 @@ export default function Admin({children, layoutData}:InferProps<typeof Admin.pro
         <>
             <Box sx={{ display: 'flex' }}>
                 <Navbar mobilecontrol={handleDrawerToggle}/>
-                <Sidebar mobilecontrol={handleDrawerToggle} mobileopen={mobileOpen}></Sidebar>
+                <Sidebar layoutData={layoutData} mobilecontrol={handleDrawerToggle} mobileopen={mobileOpen}></Sidebar>
                 <Box
                     component="main"
                     sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - 240px)` } }}
