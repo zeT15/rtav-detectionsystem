@@ -10,34 +10,36 @@ import Toolbar from '@mui/material/Toolbar';
 
 
 
-export default function Admin({children, layoutData}:InferProps<typeof Admin.propTypes>){
+export default function Admin({ children, layoutData }: InferProps<typeof Admin.propTypes>) {
 
     const router = useRouter();
 
     const [mobileOpen, setMobileOpen] = React.useState(false);
 
     const handleDrawerToggle = () => {
-      setMobileOpen(!mobileOpen);
+        setMobileOpen(!mobileOpen);
     };
     React.useEffect(() => {
-        if (!layoutData.user) 
+        if (!layoutData.user)
             router.push("/auth/login")
-        else if (layoutData.user.usertype != "admin" && layoutData.user.usertype != "employeer"){
+        else if (layoutData.user.usertype != "admin" && layoutData.user.usertype != "employeer") {
             router.push("/common/mainboard")
         }
     }, []);
-    
 
-    return(
+    if (!layoutData) {
+        return null;
+    }
+    return (
         <>
             <Box sx={{ display: 'flex' }}>
-                <Navbar mobilecontrol={handleDrawerToggle}/>
+                <Navbar mobilecontrol={handleDrawerToggle} />
                 <Sidebar layoutData={layoutData} mobilecontrol={handleDrawerToggle} mobileopen={mobileOpen}></Sidebar>
                 <Box
                     component="main"
                     sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - 240px)` } }}
                 >
-                    <Toolbar/>
+                    <Toolbar />
                     {children}
                 </Box>
             </Box>

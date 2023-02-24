@@ -5,7 +5,6 @@ import formidable from "formidable";
 import fs from "fs";
 import { faker } from '@faker-js/faker';
 
-
 export const config = {
   api: {
     bodyParser: false
@@ -42,7 +41,6 @@ const handler = async function handler(req:any, res:any) {
 
         User.findOne({email: fields.useremail,}).exec(
           function (err, result) {
-              // Tada! random user
               let report = new Report({
                   reportowner:result._id,
                   reporttype:"standard",
@@ -54,14 +52,13 @@ const handler = async function handler(req:any, res:any) {
                   sendedwhatsapp:"",
                   reportflag:"new"
               });
-              // report.save();
+              report.save();
         })
         res.json({state:"success", message:"Successfully Added"})
       } 
       else {
         res.json({state:"error", message: "Not found Car Number"}) 
-      }
-      
+      }      
     });
 
 };

@@ -15,6 +15,7 @@ app.prepare().then(() => {
   // server.use(fileUpload())
 
   server.use("/upload", express.static(__dirname + "/public/uploads"));
+  console.log(__dirname + "/public/uploads");
   server.all("*", (req, res) => {
     return handle(req, res);
   });
@@ -23,7 +24,7 @@ app.prepare().then(() => {
     console.log(`Ready on http://localhost:${port}`);
   });
   mongoose
-    .connect("mongodb://127.0.0.1:27017/mujiba", {
+    .connect(process.env.DB_CONNECTION_STRING, {
       useUnifiedTopology: true,
       useNewUrlParser: true,
     })

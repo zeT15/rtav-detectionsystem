@@ -10,13 +10,13 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 export const sidebardata: any[] = [
     {
-        key: "users",
+        key: "user",
         data: [
             {
                 id: 1,
                 role: ["admin"],
                 key: "users",
-                name: "Users",
+                name: "Users List",
                 icon: <GroupIcon />
             },
         ]

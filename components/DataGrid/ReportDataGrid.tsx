@@ -11,7 +11,6 @@ import CancelIcon from '@mui/icons-material/Close';
 import TheatersIcon from '@mui/icons-material/Theaters';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import QrCode2Icon from '@mui/icons-material/QrCode2';
-import QRCodeCanvas from "qrcode.react";
 import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
 import Chip from '@mui/material/Chip';
 
@@ -34,7 +33,10 @@ import {
 import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
 
-import {datastatus} from '../../utils/SidebarData';
+import { datastatus } from '../../utils/SidebarData';
+import { send } from 'process';
+import { PricingV1PhoneNumberPhoneNumberCountryInstancePhoneNumberPrices } from 'twilio/lib/rest/pricing/v1/phoneNumber/country';
+import { toast } from 'react-toastify';
 
 
 
@@ -50,7 +52,7 @@ function EditToolbar(props: EditToolbarProps) {
   return (
     <GridToolbarContainer>
       <div className='w-full flex'>
-        {datastatus.map((item:any) =>
+        {datastatus.map((item: any) =>
           <Chip className={`super-app-theme--${item.current} m-1`} label={item.current} key={item.current} />)
         }
       </div>
@@ -58,20 +60,14 @@ function EditToolbar(props: EditToolbarProps) {
   );
 }
 
-const formatRows: GridRowsProp= [];
+const formatRows: GridRowsProp = [];
 
-export default function ReportDataGrid(props:any) {
+export default function ReportDataGrid(props: any) {
 
   const [open, setOpen] = React.useState(false);
   const [modalopen, setModalopen] = React.useState(false);
-  const [videopath, setVideopath] = React.useState({fpath:"", ftype:""});
-  const [qrData, setQrData] = React.useState({});
-  const [smsData, setSmsData] = React.useState({});
-
-  
-
-
-
+  const [videopath, setVideopath] = React.useState({ fpath: "", ftype: "" });
+  const [qrPath, setQrPath] = React.useState("");
 
 
   function handleClickOpen(fvalue: string, ftype: string): void {
@@ -79,38 +75,30 @@ export default function ReportDataGrid(props:any) {
     setVideopath({ fpath: fvalue, ftype: ftype });
   }
 
-  const updatedata = (method:string,data:any) => {
+  const updatedata = (method: string, data: any) => {
     let flag = data.reportflag;
-    if(method==="upgrade"){
-      flag = datastatus.filter((item:any)=>item.current == flag)[0].upgrade;
-    }else if(method==="cancel"){
-      flag = datastatus.filter((item:any)=>item.current == flag)[0].cancel;
+    if (method === "upgrade") {
+      flag = datastatus.filter((item: any) => item.current == flag)[0].upgrade;
+    } else if (method === "cancel") {
+      flag = datastatus.filter((item: any) => item.current == flag)[0].cancel;
     }
     const changeddata = {
-      _id:data._id,
-      whatsapp:data.sendedwhatsapp,
-      car:data.reportedcar,
-      flag:flag,
-      type:data.reporttype,
-      fine:data.reportfine,
+      _id: data._id,
+      whatsapp: data.sendedwhatsapp,
+      car: data.reportedcar,
+      flag: flag,
+      type: data.reporttype,
+      fine: data.reportfine,
     }
     props.updateData(changeddata);
-  } 
+  }
 
   const handleClose = () => {
     setOpen(false);
   };
 
-  const handleModalOpen = (params:any) => {
-    setQrData({
-      id: params._id,
-      carnumber: params.inventory_docs.length>0 ? params.inventory_docs[0].carnumber : " ",
-      price: params.reportfine,
-      date: params.reportdate,
-      filepath: params.reportmedia.filepath,
-      reporter_name:params.caremployeer[0].name,
-      reporter_email:params.caremployeer[0].email
-    })
+  const handleModalOpen = (params: any) => {
+    setQrPath(`/uploads/qr/_new${params._id}.png`)
     setModalopen(true)
   }
 
@@ -121,10 +109,10 @@ export default function ReportDataGrid(props:any) {
   const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>({});
   const [pageSize, setPageSize] = React.useState<number>(10);
 
-  React.useEffect(()=>{
-    const griddata:GridRowsProp = props.data;
+  React.useEffect(() => {
+    const griddata: GridRowsProp = props.data;
     setRows(griddata);
-  },[props]);
+  }, [props]);
 
   const handleRowEditStart = (
     params: GridRowParams,
@@ -147,48 +135,58 @@ export default function ReportDataGrid(props:any) {
 
   const handleDeleteClick = (id: GridRowId) => () => {
     // setRows(rows.filter((row) => row._id !== id));
-    updatedata("cancel", rows.filter((item:any)=>item._id == id)[0]);
+    updatedata("cancel", rows.filter((item: any) => item._id == id)[0]);
   };
 
   const handlestatusClick = (params: any) => () => {
-    setQrData({
+    const sendData = {
       id: params._id,
-      carnumber: params.inventory_docs.length>0 ? params.inventory_docs[0].carnumber : " ",
-      price: params.reportfine,
+      carnumber: params.inventory_docs.length > 0 ? params.inventory_docs[0].carnumber : " ",
+      totalPrice: params.reportfine,
+      reporterPrice:params.reportfine * 0.9,
       date: params.reportdate,
+      payState: "NO",
       filepath: params.reportmedia.filepath,
-      reporter_name:params.caremployeer[0].name,
-      reporter_email:params.caremployeer[0].email
-    })
-    axios
-      .post("/api/twilo/message","test")
-      .then((res:any) => {
-          console.log(res)
-      })
-      .catch((err) => {
-      })
-      .finally(() => {
-  });
-      
-    // setQrData({
-    //   id: params._id,
-    //   carnumber: params.inventory_docs.length>0 ? params.inventory_docs[0].carnumber : " ",
-    //   price: params.reportfine,
-    //   date: params.reportdate,
-    //   filepath: params.reportmedia.filepath,
-    //   reporter_name:params.caremployeer[0].name,
-    //   reporter_email:params.caremployeer[0].email
-    // })
-    // setSmsData({
-    //   carnumber: params.inventory_docs.length>0 ? params.inventory_docs[0].carnumber : " ",
-    //   price: params.reportfine,
-    //   date: params.reportdate,
-    //   filepath: params.reportmedia.filepath,
-    //   reporter_name:params.caremployeer[0].name,
-    //   reporter_email:params.caremployeer[0].email
-    // })
-    // console.log(smsData, "k ");return;
-    // updatedata("upgrade", rows.filter((item:any)=>item._id == params._id)[0]);
+      reporter_name: params.caremployeer[0].name,
+      reporter_email: params.caremployeer[0].email
+    }
+    if (params.reportflag == "new") {
+      axios
+        .post("/api/twilio/newQrcode", sendData)
+        .then((res: any) => {
+          toast.success("Message successfully sent!")
+        })
+        .catch((err) => {
+        })
+        .finally(() => {
+        });
+    };
+
+    if (params.reportflag == "check") {
+      sendData.payState="YES"
+      axios
+        .post("/api/twilio/checkQrcode", sendData)
+        .then((res: any) => {
+          toast.success("Message successfully sent!")
+        })
+        .catch((err) => {
+        })
+        .finally(() => {
+        });
+    }
+
+    if (params.reportflag = "fine") {
+      axios
+        .post("/api/twilio/fineMessage", sendData)
+        .then((res:any)=>{
+          toast.success("Message successfully sent!")
+        })
+        .catch((err) => {
+        })
+        .finally(() => {
+        })
+    }
+    updatedata("upgrade", rows.filter((item: any) => item._id == params._id)[0]);
   };
 
 
@@ -215,36 +213,37 @@ export default function ReportDataGrid(props:any) {
 
   const columns: GridColumns = [
     { field: '_id', headerName: '_id', width: 0, editable: false, hide: true },
-    { field: 'rname', 
-      headerName: '👥 Name', 
-      width: 120, 
+    {
+      field: 'rname',
+      headerName: '👥 Name',
+      width: 120,
       editable: false,
       sortable: false,
-      renderCell: (params:any) =>  (
+      renderCell: (params: any) => (
         <Tooltip title={params.row.caremployeer[0].name}>
           <span className="table-cell-trucate">{params.row.caremployeer[0].name}</span>
         </Tooltip>
       ),
-     },
-    { 
-      field: 'rwhatnumber', 
-      headerName: 'Reporter 📱', 
-      width:120,
+    },
+    {
+      field: 'rwhatnumber',
+      headerName: 'Reporter 📱',
+      width: 120,
       editable: false,
       sortable: false,
-      renderCell: (params:any) =>  (
+      renderCell: (params: any) => (
         <Tooltip title={params.row.caremployeer[0].whatsapp}>
           <span className="table-cell-trucate">{params.row.caremployeer[0].whatsapp}</span>
         </Tooltip>
       ),
-     },
-     { 
-      field: 'reporttype', 
-      headerName: 'Type', 
-      width:200,
+    },
+    {
+      field: 'reporttype',
+      headerName: 'Type',
+      width: 200,
       editable: true,
       type: "singleSelect",
-      valueOptions : [
+      valueOptions: [
         "standard",
         "Dangerous driving",
         "Traffic light not obeyed",
@@ -252,30 +251,30 @@ export default function ReportDataGrid(props:any) {
         "Illegal stopping",
         "Failure to stop after accident"
       ]
-     },
-    { 
-      field: 'reportnumber', 
-      headerName: 'No 🔢', 
-      width:80, 
+    },
+    {
+      field: 'reportnumber',
+      headerName: 'No 🔢',
+      width: 80,
       editable: false,
       sortable: false,
-      renderCell: (params:any) =>  (
+      renderCell: (params: any) => (
         <Tooltip title={`Limit: ${params.row.caremployeer[0].reportlimit}`}>
           <span className="table-cell-trucate">{params.row.caremployeer[0].reportnumber}</span>
         </Tooltip>
       ),
-     },
-    { 
-      field: 'reportgps', 
-      headerName: 'GPS 🌍', 
-      width:100, 
+    },
+    {
+      field: 'reportgps',
+      headerName: 'GPS 🌍',
+      width: 100,
       editable: false,
       sortable: false,
-      renderCell: (params:any) =>  (
+      renderCell: (params: any) => (
         <Tooltip title={params.row.reportgps} >
           <span className="table-cell-trucate">{params.row.reportgps}</span>
         </Tooltip>
-       ), 
+      ),
     },
     {
       field: 'reportdate',
@@ -284,60 +283,60 @@ export default function ReportDataGrid(props:any) {
       width: 100,
       editable: false,
     },
-    { field: 'reportedcar', headerName: 'Car Number', width:130, editable: true },
-    { 
-      field: 'ownerPhone', 
-      headerName: 'Owner Phone', 
-      width:130, 
+    { field: 'reportedcar', headerName: 'Car Number', width: 130, editable: true },
+    {
+      field: 'ownerPhone',
+      headerName: 'Owner Phone',
+      width: 130,
       editable: false,
-      renderCell: (params:any) =>  (
+      renderCell: (params: any) => (
         <Tooltip title={params.row.inventory_docs.length > 0 ? params.row.inventory_docs[0].phonenumber : ""}>
           <span className="table-cell-trucate">{params.row.inventory_docs.length > 0 ? params.row.inventory_docs[0].phonenumber : ""}</span>
         </Tooltip>
       ),
     },
     // { field: 'sendedwhatsapp', headerName: 'Owner 📱', sortable: false, width:120, editable: true },
-    { 
-      field: 'id', 
-      headerName: 'QR 🔢', 
-      sortable: false, 
+    {
+      field: 'id',
+      headerName: 'QR 🔢',
+      sortable: false,
       type: 'actions',
-      width:80, 
+      width: 80,
       editable: false,
-      getActions: (params:any) => {
-        if(params.row.reportflag!="new") {
+      getActions: (params: any) => {
+        if (params.row.reportflag != "new") {
           return [
             <GridActionsCellItem
-            icon={<QrCode2Icon />}
-            label="Video View"
-            className="textPrimary"
-            onClick={() => handleModalOpen(params.row)}
-            color="inherit"
+              icon={<QrCode2Icon />}
+              label="Video View"
+              className="textPrimary"
+              onClick={() => handleModalOpen(params.row)}
+              color="inherit"
             />
-          ];  
+          ];
         } else {
           return [];
         }
-        },
+      },
     },
-    { field: 'reportfine', headerName: '💲', type:'number', width:70, editable: true },
+    { field: 'reportfine', headerName: '💲', type: 'number', width: 70, editable: true },
     {
       field: 'video',
       type: 'actions',
       headerName: '🎬',
       width: 50,
       cellClassName: 'actions',
-      getActions: (params:any) => {
+      getActions: (params: any) => {
         return [
           <GridActionsCellItem
             key={params.row.reportmedia.filepath}
-            icon={params.row.reportmedia.filetype == "video" ? <TheatersIcon />: <InsertPhotoIcon />}
+            icon={params.row.reportmedia.filetype == "video" ? <TheatersIcon /> : <InsertPhotoIcon />}
             label="Video View"
             className="textPrimary"
             onClick={() => handleClickOpen(params.row.reportmedia.filepath, params.row.reportmedia.filetype)}
             color="inherit"
           />
-        ];  
+        ];
       },
     },
     {
@@ -386,13 +385,13 @@ export default function ReportDataGrid(props:any) {
           />,
         ];
       },
-    },{
+    }, {
       field: 'check',
       type: 'actions',
       headerName: '✅',
       width: 50,
       cellClassName: 'actions',
-      getActions: (params:any) => {
+      getActions: (params: any) => {
         return [
           <GridActionsCellItem
             key={`${params.row._id}-check`}
@@ -402,14 +401,14 @@ export default function ReportDataGrid(props:any) {
             onClick={handlestatusClick(params.row)}
             color="inherit"
           />
-        ];  
+        ];
       },
     },
   ];
 
   return (
     <Box
-        sx={{
+      sx={{
         height: 500,
         width: '100%',
         '& .actions': {
@@ -423,10 +422,10 @@ export default function ReportDataGrid(props:any) {
       <DataGrid
         rows={rows}
         columns={columns}
-        getRowId={(row: any) =>  row._id}
+        getRowId={(row: any) => row._id}
         editMode="row"
         rowModesModel={rowModesModel}
-        onRowModesModelChange={(newModel:any) => setRowModesModel(newModel)}
+        onRowModesModelChange={(newModel: any) => setRowModesModel(newModel)}
         onRowEditStart={handleRowEditStart}
         onRowEditStop={handleRowEditStop}
         processRowUpdate={processRowUpdate}
@@ -447,77 +446,55 @@ export default function ReportDataGrid(props:any) {
         <VideoModal close={handleClose} isshow={open} media={videopath}></VideoModal>
       </div>
       <div>
-        <QrModal close={handleModalClose} qrData={qrData} isshow={modalopen}></QrModal>
+        <QrModal close={handleModalClose} qrPath={qrPath} isshow={modalopen}></QrModal>
       </div>
     </Box>
   );
 }
 
-const VideoModal = (props:any) => {
+const VideoModal = (props: any) => {
 
-  return(
+  return (
     <Dialog
-    open={props.isshow}
-    onClose={props.close}
-    aria-labelledby="responsive-dialog-title"
+      open={props.isshow}
+      onClose={props.close}
+      aria-labelledby="responsive-dialog-title"
     >
       <DialogTitle id="responsive-dialog-title">
         {`Reported ${props.media.ftype}`}
       </DialogTitle>
       <DialogContent>
-        {props.media.ftype=="video"?<video controls width="50%" style={{width:"inherit"}}>
-          <source src={props.media.fpath} type="video/mp4"/>
-            <h5>{`Sorry, Your browser doesn't support videos.`}</h5>
-        </video>:<Zoom>
+        {props.media.ftype == "video" ? <video controls width="50%" style={{ width: "inherit" }}>
+          <source src={props.media.fpath} type="video/mp4" />
+          <h5>{`Sorry, Your browser doesn't support videos.`}</h5>
+        </video> : <Zoom>
           <img
             alt="That Wanaka Tree, New Zealand by Laura Smetsers"
             src={props.media.fpath}
             width="500"
-          /> 
+          />
         </Zoom>}
       </DialogContent>
     </Dialog>
   )
 }
-export const QrModal = (props:any) => {
-  const { isshow, close, qrData } = props;
-  const [qr, setQr] = React.useState('');
+export const QrModal = (props: any) => {
+  const { isshow, close, qrPath } = props;
 
-  const downloadQRCode = () => {
-    const canvas = document.getElementById("qrCodeEl");
-    setQr(canvas
-      .toDataURL("image/png")
-      .replace("image/png", "image/octet-stream"))
-
-  }
-
-  const qrcode = (
-    <QRCodeCanvas
-    id="qrCodeEl"
-    size={256}
-    style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-    value={JSON.stringify(qrData)}
-    viewBox={`0 0 256 256`}
-    />
-  );
-
-  return(
+  return (
     <Dialog
-    open={isshow}
-    onClose={close}
-    aria-labelledby="responsive-dialog-title"
+      open={isshow}
+      onClose={close}
+      aria-labelledby="responsive-dialog-title"
     >
       <DialogContent>
-        <div style={{ height: "auto", margin: "0 auto", width: "100%" }}>
-          {qrcode}
-          <input
-            type="button"
-            className="download-btn"
-            value="Download"
-            onClick={()=>downloadQRCode()}
+        <Zoom>
+          <img
+            alt="QR Code"
+            src={qrPath}
+            width="400"
           />
-        <img src={qr} alt="" />
-        </div>
+        </Zoom>
       </DialogContent>
     </Dialog>
   )

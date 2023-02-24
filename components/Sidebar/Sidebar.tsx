@@ -11,7 +11,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import {sidebardata} from '../../utils/SidebarData';
+import { sidebardata } from '../../utils/SidebarData';
 import Link from 'next/link';
 
 const drawerWidth = 240;
@@ -22,85 +22,82 @@ interface Props {
      * You won't need it on your project.
      */
     window?: () => Window;
-  }
-  
-export default function Sidebar(props:any, data:Props){
+}
+
+export default function Sidebar(props: any, data: Props) {
 
     const { window } = data;
     const router = useRouter();
-    React.useEffect(() => {
-        if (props.layoutData.user._id == "" || props.layoutData.user._id == undefined || props.layoutData.user._id == null) {
-            router.push("/auth/login")
-        }
-        }, []);
-  const drawer = (
-    <div>
-      <Toolbar>
-        <Typography variant="h4" noWrap component="div" sx={{fontWeight:800}}>
-            <Link href="/">Mujiba</Link>
-        </Typography>
-      </Toolbar>
-      {sidebardata.map((group:any)=>
-      <Box key={group.key}>
-        <Divider />
-        <List>
-            {group.data.map((item:any)=> {
-                const role = item.role
-                if(role.includes(props.layoutData.user.usertype))
-                return <ListItem 
-                    key={item.key} 
-                    disablePadding                       
-                    className={(router.query.flag !== item.key ? "opacity-75" : "selected")}>
-                    <ListItemButton onClick={()=>router.push("/admin/dashboard/"+item.key)}>
-                        <ListItemIcon sx={{color:"inherit"}}>
-                            {item.icon}
-                        </ListItemIcon>
-                        <ListItemText primary={item.name} />
-                    </ListItemButton>
-                </ListItem>
-            })}     
-        </List>
-      </Box>
-      )}
-    </div>
-  );
+    const drawer = (
+        <div>
+            <Toolbar>
+                <Typography variant="h4" noWrap component="div" sx={{ fontWeight: 800 }}>
+                    <Link href="/">Mujiba</Link>
+                </Typography>
+            </Toolbar>
+            {sidebardata.map((group: any) =>
+                <Box key={group.key}>
+                    <Divider />
+                    <List>
+                        {group.data.map((item: any) => {
+                            const role = item.role
+                            if (role.includes(props.layoutData.user?.usertype)) {
 
-  const container = window !== undefined ? () => window().document.body : undefined;
+                                return <ListItem
+                                    key={item.key}
+                                    disablePadding
+                                    className={(router.query.flag !== item.key ? "opacity-75" : "selected")}>
+                                    <ListItemButton onClick={() => router.push("/admin/dashboard/" + item.key)}>
+                                        <ListItemIcon sx={{ color: "inherit" }}>
+                                            {item.icon}
+                                        </ListItemIcon>
+                                        <ListItemText primary={item.name} />
+                                    </ListItemButton>
+                                </ListItem>
+                            }
+                        })}
+                    </List>
+                </Box>
+            )}
+        </div>
+    );
 
-    return(
+    const container = window !== undefined ? () => window().document.body : undefined;
+
+    return (
         <>
-        <Box
-            component="nav"
-            sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-            aria-label="mailbox folders"
-        >
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-            <Drawer
-                container={container}
-                variant="temporary"
-                open={props.mobileopen}
-                onClose={props.mobilecontrol}
-                ModalProps={{
-                    keepMounted: true, // Better open performance on mobile.
-                }}
-                sx={{
-                    display: { xs: 'block', sm: 'none' },
-                    '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-                }}
+            <Box
+                component="nav"
+                sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+                aria-label="mailbox folders"
             >
-                {drawer}
-            </Drawer>
-            <Drawer
-                variant="permanent"
-                sx={{
-                    display: { xs: 'none', sm: 'block' },
-                    '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-                }}
-                open
-            >
-                {drawer}
-            </Drawer>
-        </Box>
+                {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+                <Drawer
+                    container={container}
+                    variant="temporary"
+                    open={props.mobileopen}
+                    onClose={props.mobilecontrol}
+                    ModalProps={{
+                        keepMounted: true, // Better open performance on mobile.
+                    }}
+                    sx={{
+                        display: { xs: 'block', sm: 'none' },
+                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+                    }}
+                >
+                    {drawer}
+                </Drawer>
+                <Drawer
+                    variant="permanent"
+                    sx={{
+                        display: { xs: 'none', sm: 'block' },
+                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+                    }}
+                    open
+                >
+                    {drawer}
+                </Drawer>
+            </Box>
         </>
     )
 }

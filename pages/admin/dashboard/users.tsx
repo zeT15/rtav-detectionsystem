@@ -14,12 +14,12 @@ const Users = ({layoutData}:InferGetServerSidePropsType<typeof getServerSideProp
 
     const [data, setData] = useState([])
     const router = useRouter()
-    const flag = "users";
+    const {flag} = router.query
 
 
     const getdata = () => {
         axios
-        .post("/api/admin/dashboard/getuserdata", {flag:'users'})
+        .post("/api/admin/dashboard/getuserdata")
         .then((res:any) => {
             setData(res.data);
         })
