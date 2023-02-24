@@ -307,6 +307,7 @@ export default function ReportDataGrid(props: any) {
         if (params.row.reportflag != "new") {
           return [
             <GridActionsCellItem
+              key={params.row.id}
               icon={<QrCode2Icon />}
               label="Video View"
               className="textPrimary"
