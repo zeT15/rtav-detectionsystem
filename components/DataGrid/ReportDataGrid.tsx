@@ -161,7 +161,7 @@ export default function ReportDataGrid(props: any) {
         .finally(() => {
         });
     };
-
+    return;
     if (params.reportflag == "check") {
       sendData.payState="YES"
       axios
@@ -186,7 +186,7 @@ export default function ReportDataGrid(props: any) {
         .finally(() => {
         })
     }
-    updatedata("upgrade", rows.filter((item: any) => item._id == params._id)[0]);
+    // updatedata("upgrade", rows.filter((item: any) => item._id == params._id)[0]);
   };
 
 
