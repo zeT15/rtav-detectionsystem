@@ -141,14 +141,7 @@ export default function ReportDataGrid(props: any) {
   const handlestatusClick = (params: any) => () => {
     const sendData = {
       id: params._id,
-      carnumber: params.inventory_docs.length > 0 ? params.inventory_docs[0].carnumber : " ",
-      totalPrice: params.reportfine,
-      reporterPrice:params.reportfine * 0.9,
-      date: params.reportdate,
-      payState: "NO",
-      filepath: params.reportmedia.filepath,
-      reporter_name: params.caremployee[0].name,
-      reporter_email: params.caremployee[0].email
+      carnumber: params.caremployee.length > 0 ? params.caremployee[0].carnumber : " ",
     }
     updatedata("upgrade", rows.filter((item: any) => item._id == params._id)[0]);
 
@@ -167,7 +160,6 @@ export default function ReportDataGrid(props: any) {
         });
     };
     if (params.reportflag == "check") {
-      sendData.payState="YES"
       axios
         .post("/api/twilio/checkQrcode", sendData)
         .then((res: any) => {
@@ -230,8 +222,8 @@ export default function ReportDataGrid(props: any) {
       editable: false,
       sortable: false,
       renderCell: (params: any) => (
-        <Tooltip title={params.row.caremployee[0].name}>
-          <span className="table-cell-trucate">{params.row.caremployee[0].name}</span>
+        <Tooltip title={params.row.carreporter[0].name}>
+          <span className="table-cell-trucate">{params.row.carreporter[0].name}</span>
         </Tooltip>
       ),
     },
@@ -242,8 +234,8 @@ export default function ReportDataGrid(props: any) {
       editable: false,
       sortable: false,
       renderCell: (params: any) => (
-        <Tooltip title={params.row.caremployee[0].whatsapp}>
-          <span className="table-cell-trucate">{params.row.caremployee[0].whatsapp}</span>
+        <Tooltip title={params.row.carreporter[0].whatsapp}>
+          <span className="table-cell-trucate">{params.row.carreporter[0].whatsapp}</span>
         </Tooltip>
       ),
     },
@@ -269,8 +261,8 @@ export default function ReportDataGrid(props: any) {
       editable: false,
       sortable: false,
       renderCell: (params: any) => (
-        <Tooltip title={`Limit: ${params.row.caremployee[0].reportlimit}`}>
-          <span className="table-cell-trucate">{params.row.caremployee[0].reportnumber}</span>
+        <Tooltip title={`Limit: ${params.row.carreporter[0].reportlimit}`}>
+          <span className="table-cell-trucate">{params.row.carreporter[0].reportnumber}</span>
         </Tooltip>
       ),
     },
@@ -300,8 +292,8 @@ export default function ReportDataGrid(props: any) {
       width: 130,
       editable: false,
       renderCell: (params: any) => (
-        <Tooltip title={params.row.inventory_docs.length > 0 ? params.row.inventory_docs[0].phonenumber : ""}>
-          <span className="table-cell-trucate">{params.row.inventory_docs.length > 0 ? params.row.inventory_docs[0].phonenumber : ""}</span>
+        <Tooltip title={params.row.caremployee.length > 0 ? params.row.caremployee[0].phonenumber : ""}>
+          <span className="table-cell-trucate">{params.row.caremployee.length > 0 ? params.row.caremployee[0].phonenumber : ""}</span>
         </Tooltip>
       ),
     },

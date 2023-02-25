@@ -25,6 +25,7 @@ import {
   GridEventListener,
   GridRowId,
   GridRowModel,
+  unstable_resetCleanupTracking,
 } from '@mui/x-data-grid';
 
 import Zoom from 'react-medium-image-zoom'
@@ -69,16 +70,15 @@ export default function ReportDataGrid(props:any) {
   const updatedata = (method:string,data:any) => {
     let flag = data.reportflag;
     if(method==="upgrade"){
-      flag = datastatus.filter((item:any)=>item.current == flag)[0].upgrade;
+      // flag = datastatus.filter((item:any)=>item.current == flag)[0].upgrade;
     }else if(method==="cancel"){
-      flag = datastatus.filter((item:any)=>item.current == flag)[0].cancel;
+      // flag = datastatus.filter((item:any)=>item.current == flag)[0].cancel;
     }
     const changeddata = {
       _id:data._id,
       whatsapp:data.whatsapp,
       type:data.usertype,
     }
-    console.log(changeddata);
     props.updateData(changeddata);
   } 
 
@@ -228,13 +228,13 @@ export default function ReportDataGrid(props:any) {
             onClick={handleEditClick(id)}
             color="inherit"
           />,
-          <GridActionsCellItem
-            key={`${id}-delete`}
-            icon={<DeleteIcon />}
-            label="Delete"
-            onClick={handleDeleteClick(id)}
-            color="inherit"
-          />,
+          // <GridActionsCellItem
+          //   key={`${id}-delete`}
+          //   icon={<DeleteIcon />}
+          //   label="Delete"
+          //   onClick={handleDeleteClick(id)}
+          //   color="inherit"
+          // />,
         ];
       },
     },

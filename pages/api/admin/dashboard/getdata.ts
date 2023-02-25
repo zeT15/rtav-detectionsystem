@@ -15,7 +15,7 @@ const handler = async function handler(req:any, res:any) {
                     from: "cars",
                     localField: "reportedcar",
                     foreignField: "carnumber",
-                    as: "inventory_docs"
+                    as: "caremployee"
                 },
             },{
                 $lookup:
@@ -23,11 +23,11 @@ const handler = async function handler(req:any, res:any) {
                     from: "users",
                     localField: "reportowner",
                     foreignField: "_id",
-                    as: "caremployee"
+                    as: "carreporter"
                 }
             }
             ] );
-        // const filterReports = reports.filter(reports => reports.inventory_docs[0].owner = req.session.get("user")._id)
+        // const filterReports = reports.filter(reports => reports.caremployee[0].owner = req.session.get("user")._id)
         return res.status(200).send(reports);
         }
         let reports = await Report.aggregate( [
@@ -37,14 +37,14 @@ const handler = async function handler(req:any, res:any) {
                     from: "cars",
                     localField: "reportedcar",
                     foreignField: "carnumber",
-                    as: "inventory_docs"
+                    as: "caremployee"
                 },
            },{
                 $lookup:{
                     from: "users",
                     localField: "reportowner",
                     foreignField: "_id",
-                    as: "caremployee"
+                    as: "carreporter"
                 }
            },
            {
@@ -56,8 +56,8 @@ const handler = async function handler(req:any, res:any) {
          ] );
         if(req.session.get("user").usertype == "employee") {
             const filterReports = reports.filter(reports => {
-                if (reports.inventory_docs.length > 0 ){
-                    if(reports.inventory_docs[0].owner == req.session.get("user")._id) {
+                if (reports.caremployee.length > 0 ){
+                    if(reports.caremployee[0].owner == req.session.get("user")._id) {
                         return true
                     }
                 }
