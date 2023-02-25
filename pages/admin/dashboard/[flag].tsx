@@ -50,7 +50,7 @@ const Dashboard = ({layoutData}:InferGetServerSidePropsType<typeof getServerSide
     },[flag])
 
     return(
-        <Admin layoutData={layoutData}>
+        <Admin flag={flag} layoutData={layoutData}>
             <ReportDataGrid filterkey={flag} data={data} updateData={updatedata}/>
         </Admin>
     )

@@ -28,6 +28,7 @@ export default function Sidebar(props: any, data: Props) {
 
     const { window } = data;
     const router = useRouter();
+    const { flag } = props;
     const drawer = (
         <div>
             <Toolbar>
@@ -42,11 +43,10 @@ export default function Sidebar(props: any, data: Props) {
                         {group.data.map((item: any) => {
                             const role = item.role
                             if (role.includes(props.layoutData.user?.usertype)) {
-
                                 return <ListItem
                                     key={item.key}
                                     disablePadding
-                                    className={(router.query.flag !== item.key ? "opacity-75" : "selected")}>
+                                    className={(flag !== item.key ? "opacity-75" : "selected")}>
                                     <ListItemButton onClick={() => router.push("/admin/dashboard/" + item.key)}>
                                         <ListItemIcon sx={{ color: "inherit" }}>
                                             {item.icon}

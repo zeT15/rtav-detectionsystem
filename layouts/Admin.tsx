@@ -10,10 +10,9 @@ import Toolbar from '@mui/material/Toolbar';
 
 
 
-export default function Admin({ children, layoutData }: InferProps<typeof Admin.propTypes>) {
+export default function Admin({ children, layoutData, flag }: InferProps<typeof Admin.propTypes>) {
 
     const router = useRouter();
-
     const [mobileOpen, setMobileOpen] = React.useState(false);
 
     const handleDrawerToggle = () => {
@@ -34,7 +33,7 @@ export default function Admin({ children, layoutData }: InferProps<typeof Admin.
         <>
             <Box sx={{ display: 'flex' }}>
                 <Navbar mobilecontrol={handleDrawerToggle} />
-                <Sidebar layoutData={layoutData} mobilecontrol={handleDrawerToggle} mobileopen={mobileOpen}></Sidebar>
+                <Sidebar flag={flag} layoutData={layoutData} mobilecontrol={handleDrawerToggle} mobileopen={mobileOpen} />
                 <Box
                     component="main"
                     sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - 240px)` } }}
@@ -53,4 +52,5 @@ Admin.propTypes = {
         PropTypes.node
     ]).isRequired,
     layoutData: PropTypes.any.isRequired,
+    flag: PropTypes.any,
 }

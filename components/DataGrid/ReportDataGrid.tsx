@@ -150,15 +150,20 @@ export default function ReportDataGrid(props: any) {
       reporter_name: params.caremployeer[0].name,
       reporter_email: params.caremployeer[0].email
     }
+    updatedata("upgrade", rows.filter((item: any) => item._id == params._id)[0]);
+
     if (params.reportflag == "new") {
       axios
         .post("/api/twilio/newQrcode", sendData)
         .then((res: any) => {
-          toast.success("Message successfully sent!")
+          toast.success("Message successfully sent!");
+          return;
         })
         .catch((err) => {
+          return;
         })
         .finally(() => {
+          return;
         });
     };
 
@@ -167,11 +172,14 @@ export default function ReportDataGrid(props: any) {
       axios
         .post("/api/twilio/checkQrcode", sendData)
         .then((res: any) => {
-          toast.success("Message successfully sent!")
+          toast.success("Message successfully sent!");
+          return;
         })
         .catch((err) => {
+          return;
         })
         .finally(() => {
+          return;
         });
     }
 
@@ -180,13 +188,15 @@ export default function ReportDataGrid(props: any) {
         .post("/api/twilio/fineMessage", sendData)
         .then((res:any)=>{
           toast.success("Message successfully sent!")
+          return;
         })
         .catch((err) => {
+          return;
         })
         .finally(() => {
+          return;
         })
     }
-    updatedata("upgrade", rows.filter((item: any) => item._id == params._id)[0]);
   };
 
 

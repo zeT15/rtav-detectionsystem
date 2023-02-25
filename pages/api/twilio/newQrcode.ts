@@ -7,7 +7,6 @@ const handler = async function handler(req: NextApiRequest, res: NextApiResponse
     const phone = <string>process.env.TWILIO_NUMBER
     const client = twilio(accountSid, token);
     
-    
     const uploadrUrl = <string>process.env.UPLOAD_URL     
     const QRCode = require('qrcode');
 
@@ -24,19 +23,20 @@ const handler = async function handler(req: NextApiRequest, res: NextApiResponse
             from: phone,
             to: '+447458196483'
         })
-        .then((message) =>
+        .then((message:any) =>{
+            // console.log(message);
             res.json({
                 success: true,
             })
-        )
-        .catch((error) => {
-            console.log(error);
+        })
+        .catch((error:any) => {
+            // console.log(error);
             res.json({
                 success: false,
             });
         });
     }
-    return res.status(404).send("Error")
+    // return res.status(404).send("Error")
 }
 
 export default handler;

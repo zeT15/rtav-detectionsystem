@@ -14,7 +14,8 @@ const Users = ({layoutData}:InferGetServerSidePropsType<typeof getServerSideProp
 
     const [data, setData] = useState([])
     const router = useRouter()
-    const {flag} = router.query
+    // const {flag} = router.query;
+    const flag = "users";
 
 
     const getdata = () => {
@@ -50,7 +51,7 @@ const Users = ({layoutData}:InferGetServerSidePropsType<typeof getServerSideProp
     },[flag])
 
     return(
-        <Admin layoutData={layoutData}>
+        <Admin flag={flag} layoutData={layoutData}>
             <UserDataGrid filterkey={flag} data={data} updateData={updatedata}/>
         </Admin>
     )
