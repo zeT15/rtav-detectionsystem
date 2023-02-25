@@ -175,7 +175,7 @@ export default function ReportDataGrid(props:any) {
       type: "singleSelect",
       valueOptions : [
         "common",
-        "employeer",
+        "employee",
       ]
      },
     {

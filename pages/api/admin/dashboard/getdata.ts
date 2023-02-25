@@ -23,7 +23,7 @@ const handler = async function handler(req:any, res:any) {
                     from: "users",
                     localField: "reportowner",
                     foreignField: "_id",
-                    as: "caremployeer"
+                    as: "caremployee"
                 }
             }
             ] );
@@ -44,7 +44,7 @@ const handler = async function handler(req:any, res:any) {
                     from: "users",
                     localField: "reportowner",
                     foreignField: "_id",
-                    as: "caremployeer"
+                    as: "caremployee"
                 }
            },
            {
@@ -54,7 +54,7 @@ const handler = async function handler(req:any, res:any) {
             }
            }
          ] );
-        if(req.session.get("user").usertype == "employeer") {
+        if(req.session.get("user").usertype == "employee") {
             const filterReports = reports.filter(reports => {
                 if (reports.inventory_docs.length > 0 ){
                     if(reports.inventory_docs[0].owner == req.session.get("user")._id) {

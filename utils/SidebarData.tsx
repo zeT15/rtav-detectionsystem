@@ -33,13 +33,13 @@ export const sidebardata: any[] = [
                 icon: <FiberNewIcon />
             }, {
                 id: 2,
-                role:  ["admin", "employeer"],
+                role:  ["admin", "employee"],
                 key: "check",
                 name: "Checked",
                 icon: <CheckBoxIcon />
             }, {
                 id: 3,
-                role: ["admin", "employeer"],
+                role: ["admin", "employee"],
                 key: "fine",
                 name: "Fined",
                 icon: <PaidIcon />

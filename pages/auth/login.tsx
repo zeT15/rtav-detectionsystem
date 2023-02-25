@@ -25,10 +25,10 @@ export default function Login(){
           .post(`/api/auth/login`, user)
           .then((res) => {
             toast.success("Login Successfule");
-            if(res.data === "admin"){
+            if(res.data.usertype === "admin"){
                 router.push("/admin/dashboard/all");
             }
-            else if (res.data === "employeer") {
+            else if (res.data.usertype === "employee") {
                 router.push("/admin/dashboard/check");
             }
             else {

@@ -33,8 +33,6 @@ const handler = async function handler(req:any, res:any) {
         user.startdate = new Date();
 
       }
-      const car = await Car.findOne({carnumber:fields.carnumber})
-      if(car) {
         const fileinfo = await saveFile(files.file)
         user.reportnumber = reportnumber;
         await user.save()
@@ -54,11 +52,7 @@ const handler = async function handler(req:any, res:any) {
               });
               report.save();
         })
-        res.json({state:"success", message:"Successfully Added"})
-      } 
-      else {
-        res.json({state:"error", message: "Not found Car Number"}) 
-      }      
+        res.json({state:"success", message:"Successfully Added"})   
     });
 
 };

@@ -21,7 +21,7 @@ export default function Admin({ children, layoutData, flag }: InferProps<typeof 
     React.useEffect(() => {
         if (!layoutData.user)
             router.push("/auth/login")
-        else if (layoutData.user.usertype != "admin" && layoutData.user.usertype != "employeer") {
+        else if (layoutData.user.usertype != "admin" && layoutData.user.usertype != "employee") {
             router.push("/common/mainboard")
         }
     }, []);
