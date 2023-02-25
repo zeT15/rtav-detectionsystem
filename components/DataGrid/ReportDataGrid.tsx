@@ -147,8 +147,8 @@ export default function ReportDataGrid(props: any) {
       date: params.reportdate,
       payState: "NO",
       filepath: params.reportmedia.filepath,
-      reporter_name: params.caremployeer[0].name,
-      reporter_email: params.caremployeer[0].email
+      reporter_name: params.caremployee[0].name,
+      reporter_email: params.caremployee[0].email
     }
     updatedata("upgrade", rows.filter((item: any) => item._id == params._id)[0]);
 
@@ -230,8 +230,8 @@ export default function ReportDataGrid(props: any) {
       editable: false,
       sortable: false,
       renderCell: (params: any) => (
-        <Tooltip title={params.row.caremployeer[0].name}>
-          <span className="table-cell-trucate">{params.row.caremployeer[0].name}</span>
+        <Tooltip title={params.row.caremployee[0].name}>
+          <span className="table-cell-trucate">{params.row.caremployee[0].name}</span>
         </Tooltip>
       ),
     },
@@ -242,8 +242,8 @@ export default function ReportDataGrid(props: any) {
       editable: false,
       sortable: false,
       renderCell: (params: any) => (
-        <Tooltip title={params.row.caremployeer[0].whatsapp}>
-          <span className="table-cell-trucate">{params.row.caremployeer[0].whatsapp}</span>
+        <Tooltip title={params.row.caremployee[0].whatsapp}>
+          <span className="table-cell-trucate">{params.row.caremployee[0].whatsapp}</span>
         </Tooltip>
       ),
     },
@@ -269,8 +269,8 @@ export default function ReportDataGrid(props: any) {
       editable: false,
       sortable: false,
       renderCell: (params: any) => (
-        <Tooltip title={`Limit: ${params.row.caremployeer[0].reportlimit}`}>
-          <span className="table-cell-trucate">{params.row.caremployeer[0].reportnumber}</span>
+        <Tooltip title={`Limit: ${params.row.caremployee[0].reportlimit}`}>
+          <span className="table-cell-trucate">{params.row.caremployee[0].reportnumber}</span>
         </Tooltip>
       ),
     },
