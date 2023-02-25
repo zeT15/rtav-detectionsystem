@@ -50,6 +50,19 @@ export default function Navbar(props:any){
                         edge="start"
                         onClick={(e) => {
                             e.preventDefault();
+                            axios.get("/api/test/fakereporttypes").then((res) => {
+                              toast.success(res.data);
+                            });
+                        }}
+                    >
+                        <TitleIcon></TitleIcon>
+                    </IconButton>
+
+                    <IconButton  
+                        color="inherit" 
+                        edge="start"
+                        onClick={(e) => {
+                            e.preventDefault();
                             axios.get("/api/test/fakeusers").then((res) => {
                               toast.success(res.data);
                             });

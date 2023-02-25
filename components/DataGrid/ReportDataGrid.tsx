@@ -145,48 +145,49 @@ export default function ReportDataGrid(props: any) {
     }
     updatedata("upgrade", rows.filter((item: any) => item._id == params._id)[0]);
 
-    if (params.reportflag == "new") {
-      axios
-        .post("/api/twilio/newQrcode", sendData)
-        .then((res: any) => {
-          toast.success("Message successfully sent!");
-          return;
-        })
-        .catch((err) => {
-          return;
-        })
-        .finally(() => {
-          return;
-        });
-    };
-    if (params.reportflag == "check") {
-      axios
-        .post("/api/twilio/checkQrcode", sendData)
-        .then((res: any) => {
-          toast.success("Message successfully sent!");
-          return;
-        })
-        .catch((err) => {
-          return;
-        })
-        .finally(() => {
-          return;
-        });
-    }
-
-    if (params.reportflag = "fine") {
-      axios
-        .post("/api/twilio/fineMessage", sendData)
-        .then((res:any)=>{
-          toast.success("Message successfully sent!")
-          return;
-        })
-        .catch((err) => {
-          return;
-        })
-        .finally(() => {
-          return;
-        })
+    switch (params.reportflag) {
+      case "new":
+            axios.post("/api/twilio/newQrcode", sendData)
+            .then((res: any) => {
+              toast.success("Message successfully sent!");
+              return;
+            })
+            .catch((err) => {
+              return;
+            })
+            .finally(() => {
+              return;
+            });
+          break;
+      case "check":
+          axios.post("/api/twilio/checkQrcode", sendData)
+            .then((res: any) => {
+              toast.success("Message successfully sent!");
+              return;
+            })
+            .catch((err) => {
+              return;
+            })
+            .finally(() => {
+              return;
+            });
+        break;
+      case "fine":
+          axios.post("/api/twilio/fineMessage", sendData)
+            .then((res:any)=>{
+              toast.success("Message successfully sent!")
+              return;
+            })
+            .catch((err) => {
+              return;
+            })
+            .finally(() => {
+              return;
+            })
+            break;
+    
+      default:
+        break;
     }
     // updatedata("upgrade", rows.filter((item: any) => item._id == params._id)[0]);
   };
@@ -222,8 +223,8 @@ export default function ReportDataGrid(props: any) {
       editable: false,
       sortable: false,
       renderCell: (params: any) => (
-        <Tooltip title={params.row.carreporter[0].name}>
-          <span className="table-cell-trucate">{params.row.carreporter[0].name}</span>
+        <Tooltip title={params.row.carreporter.length > 0 ? params.row.carreporter[0].name : " "}>
+          <span className="table-cell-trucate">{params.row.carreporter.length > 0 ? params.row.carreporter[0].name : " "}</span>
         </Tooltip>
       ),
     },
@@ -234,8 +235,8 @@ export default function ReportDataGrid(props: any) {
       editable: false,
       sortable: false,
       renderCell: (params: any) => (
-        <Tooltip title={params.row.carreporter[0].whatsapp}>
-          <span className="table-cell-trucate">{params.row.carreporter[0].whatsapp}</span>
+        <Tooltip title={params.row.carreporter.length > 0 ? params.row.carreporter[0].whatsapp : " "}>
+          <span className="table-cell-trucate">{params.row.carreporter.length > 0 ? params.row.carreporter[0].whatsapp : " "}</span>
         </Tooltip>
       ),
     },
@@ -261,8 +262,8 @@ export default function ReportDataGrid(props: any) {
       editable: false,
       sortable: false,
       renderCell: (params: any) => (
-        <Tooltip title={`Limit: ${params.row.carreporter[0].reportlimit}`}>
-          <span className="table-cell-trucate">{params.row.carreporter[0].reportnumber}</span>
+        <Tooltip title={`Limit: ${params.row.carreporter.length > 0 ? params.row.carreporter[0].reportlimit : " "}`}>
+          <span className="table-cell-trucate">{params.row.carreporter.length > 0 ? params.row.carreporter[0].reportnumber : " "}</span>
         </Tooltip>
       ),
     },
