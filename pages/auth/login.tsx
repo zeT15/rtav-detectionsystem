@@ -6,7 +6,7 @@ import {toast } from "react-toastify";
 import Auth from "../../layouts/Auth";
 
 export default function Login(){
-    
+    const serverUrl = process.env.SERVER_URL;
     const router = useRouter()
 
     const [user, setUser] = React.useState({
@@ -22,7 +22,7 @@ export default function Login(){
         e.preventDefault();
         setFetching(true);
         axios
-          .post("/api/auth/login", user)
+          .post(`/api/auth/login`, user)
           .then((res) => {
             toast.success("Login Successfule");
             if(res.data === "admin"){

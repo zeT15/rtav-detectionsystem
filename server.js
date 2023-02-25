@@ -32,6 +32,6 @@ app.prepare().then(() => {
       console.log("DB Connected: " + process.env.DB_CONNECTION_STRING);
     })
     .catch((err) => {
-      console.log("Unable to Connect to DB" + err);
+      console.log("Unable to Connect to DB:" + process.env.DB_CONNECTION_STRING);
     });
 });
