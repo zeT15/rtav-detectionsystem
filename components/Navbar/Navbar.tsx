@@ -11,6 +11,7 @@ import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import TitleIcon from '@mui/icons-material/Title';
+import SettingsIcon from '@mui/icons-material/Settings';
 import {toast } from "react-toastify";
 
 
@@ -36,15 +37,11 @@ export default function Navbar(props:any){
                     <IconButton  
                         color="inherit" 
                         edge="start"
-                        onClick={(e) => {
-                            e.preventDefault();
-                            axios.get("/api/test/fakereporttypes").then((res) => {
-                              toast.success(res.data);
-                            });
-                        }}
+                        onClick={props.priceSetModal}
                     >
-                        <TitleIcon></TitleIcon>
+                        <SettingsIcon></SettingsIcon>
                     </IconButton>
+
                     <IconButton  
                         color="inherit" 
                         edge="start"
@@ -57,7 +54,6 @@ export default function Navbar(props:any){
                     >
                         <TitleIcon></TitleIcon>
                     </IconButton>
-
                     <IconButton  
                         color="inherit" 
                         edge="start"

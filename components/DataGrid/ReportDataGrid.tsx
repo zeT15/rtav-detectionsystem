@@ -185,8 +185,20 @@ export default function ReportDataGrid(props: any) {
               return;
             })
             break;
-    
-      default:
+        case "paid":
+          axios.post("/api/twilio/paid", sendData)
+            .then((res:any)=>{
+              toast.success("Paid message successfully sent!")
+              return;
+            })
+            .catch((err) => {
+              return;
+            })
+            .finally(() => {
+              return;
+            })
+            break;
+          default:
         break;
     }
     // updatedata("upgrade", rows.filter((item: any) => item._id == params._id)[0]);

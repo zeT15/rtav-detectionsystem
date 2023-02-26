@@ -17,7 +17,7 @@ const handler = async function handler(req: NextApiRequest, res: NextApiResponse
             to: '+447458196483'
         })
         .then((message:any) =>{
-            // console.log(message);
+            console.log(message);
             res.json({
                 success: true,
             })
