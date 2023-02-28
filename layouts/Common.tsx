@@ -13,8 +13,8 @@ export default function Common ({children, layoutData}:InferProps<typeof Common.
     const router = useRouter();
     const [reports, setReports] = useState<any>([])
     const [reporttypes, setReporttypes] = useState<any>([])
-    var [latitude, setLatitude] =useState<any>("")
-    var [longitude, setLongitude] =useState<any>("")
+    const [latitude, setLatitude] =useState<any>("")
+    const [longitude, setLongitude] =useState<any>("")
     React.useEffect(() => {
         navigator.geolocation.getCurrentPosition(function(position) {
             setLatitude(position.coords.latitude);
@@ -55,7 +55,6 @@ export default function Common ({children, layoutData}:InferProps<typeof Common.
     }, [])
 
     const uploadandsubmit = async (file:any, carnumber:string) => {
-
         try {
             let formData = new FormData();
             formData.append("useremail", layoutData.user.email)
