@@ -73,10 +73,14 @@ const handler = async function handler(req: NextApiRequest, res: NextApiResponse
                 //         success: false,
                 //     });
                 // });
+                res.json({
+                    success:true
+                })
             }
         } else {
             res.json({
-                success:false
+                success:false,
+                message:"Unregistered Car Number"
             })
         }
     }

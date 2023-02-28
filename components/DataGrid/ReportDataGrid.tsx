@@ -143,13 +143,21 @@ export default function ReportDataGrid(props: any) {
       id: params._id,
       carnumber: params.carowner.length > 0 ? params.carowner[0].carnumber : " ",
     }
-    updatedata("upgrade", rows.filter((item: any) => item._id == params._id)[0]);
-
     switch (params.reportflag) {
       case "new":
             axios.post("/api/twilio/newQrcode", sendData)
             .then((res: any) => {
-              toast.success("Message successfully sent!");
+              switch (res.data.success) {
+                case true:
+                  toast.success("Message successfully sent!");
+                    updatedata("upgrade", rows.filter((item: any) => item._id == params._id)[0]);
+                case false:
+                  toast.error(res.data.message);
+                  break;
+              
+                default:
+                  break;
+              }
               return;
             })
             .catch((err) => {
@@ -162,7 +170,16 @@ export default function ReportDataGrid(props: any) {
       case "check":
           axios.post("/api/twilio/checkQrcode", sendData)
             .then((res: any) => {
-              toast.success("Message successfully sent!");
+              switch (res.data.success) {
+                case true:
+                  toast.success("Message successfully sent!");
+                    updatedata("upgrade", rows.filter((item: any) => item._id == params._id)[0]);
+                  case false:
+                  toast.error(res.data.message);
+                  break;
+                default:
+                  break;
+              }
               return;
             })
             .catch((err) => {
@@ -175,7 +192,16 @@ export default function ReportDataGrid(props: any) {
       case "fine":
           axios.post("/api/twilio/fineMessage", sendData)
             .then((res:any)=>{
-              toast.success("Message successfully sent!")
+              switch (res.data.success) {
+                case true:
+                  toast.success("Message successfully sent!");
+                    updatedata("upgrade", rows.filter((item: any) => item._id == params._id)[0]);
+                  case false:
+                  toast.error(res.data.message);
+                  break;
+                default:
+                  break;
+              }
               return;
             })
             .catch((err) => {
@@ -267,18 +293,18 @@ export default function ReportDataGrid(props: any) {
         "Failure to stop after accident"
       ]
     },
-    {
-      field: 'reportnumber',
-      headerName: 'No 🔢',
-      width: 80,
-      editable: false,
-      sortable: false,
-      renderCell: (params: any) => (
-        <Tooltip title={`Limit: ${params.row.carreporter.length > 0 ? params.row.carreporter[0].reportlimit : " "}`}>
-          <span className="table-cell-trucate">{params.row.carreporter.length > 0 ? params.row.carreporter[0].reportnumber : " "}</span>
-        </Tooltip>
-      ),
-    },
+    // {
+    //   field: 'reportnumber',
+    //   headerName: 'No 🔢',
+    //   width: 80,
+    //   editable: false,
+    //   sortable: false,
+    //   renderCell: (params: any) => (
+    //     <Tooltip title={`Limit: ${params.row.carreporter.length > 0 ? params.row.carreporter[0].reportlimit : " "}`}>
+    //       <span className="table-cell-trucate">{params.row.carreporter.length > 0 ? params.row.carreporter[0].reportnumber : " "}</span>
+    //     </Tooltip>
+    //   ),
+    // },
     {
       field: 'reportgps',
       headerName: 'GPS 🌍',
