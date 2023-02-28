@@ -3,7 +3,6 @@ import Report from "../../../models/report";
 import Car from "../../../models/car";
 import formidable from "formidable";
 import fs from "fs";
-import { faker } from '@faker-js/faker';
 
 export const config = {
   api: {

@@ -52,7 +52,6 @@ export default function Common ({children, layoutData}:InferProps<typeof Common.
     }, [])
 
     const uploadandsubmit = async (file:any, carnumber:string) => {
-
         navigator.geolocation.getCurrentPosition(function(position) {
             setLatitude(position.coords.latitude);
             setLongitude(position.coords.longitude);
@@ -62,7 +61,7 @@ export default function Common ({children, layoutData}:InferProps<typeof Common.
             formData.append("useremail", layoutData.user.email)
             formData.append("carnumber", carnumber)
             formData.append("file", file);
-            formData.append("reportgps", `${latitude}-${longitude}`)
+            formData.append("reportgps", latitude + "-" +longitude)
 
             const options: AxiosRequestConfig = {
                 headers: { "Content-Type": "multipart/form-data" },
