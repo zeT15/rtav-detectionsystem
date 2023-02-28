@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 var Schema = mongoose.Schema;
-import User from "./user";
 
 var carSchema = new Schema(
     {
@@ -9,7 +8,8 @@ var carSchema = new Schema(
         type: String,
         required: true,
       },
-      owner: {type: mongoose.Types.ObjectId, ref: "User"},
+      employee: {type: mongoose.Types.ObjectId},
+      permission: {type:String, default:"true", required:true}
     },
     { timestamps: true }
 );

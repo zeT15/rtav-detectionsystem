@@ -7,7 +7,7 @@ import VerifiedIcon from '@mui/icons-material/Verified';
 import GroupIcon from '@mui/icons-material/Group';
 import DoNotDisturbOnIcon from '@mui/icons-material/DoNotDisturbOn';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-
+import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 export const sidebardata: any[] = [
     {
         key: "user",
@@ -16,9 +16,16 @@ export const sidebardata: any[] = [
                 id: 1,
                 role: ["admin"],
                 key: "users",
-                name: "Users List",
+                name: "Users",
                 icon: <GroupIcon />
             },
+            {
+                id:2,
+                role:["admin", "employee"],
+                key: "cars",
+                name: "Cars",
+                icon: <DirectionsCarIcon />
+            }
         ]
     },
 

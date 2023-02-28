@@ -18,7 +18,6 @@ const handler = async function handler(req:any, res:any) {
       const user = new User({name:faker.name.fullName(), email:faker.internet.email(), password:password, whatsapp: faker.address.zipCode(), reportlimit:5, reportnumber:0, address:faker.address.streetAddress(), usertype:"common"});
       await user.save();
     }
-    
 
     return res.status(200).send("Fake Users Data Generated!");
   }

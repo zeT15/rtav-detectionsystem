@@ -16,25 +16,23 @@ const handler = async function handler(req:any, res:any) {
     const form = new formidable.IncomingForm();
 
     form.parse(req, async function (err:any, fields:any, files:any) {
-
       const user = await User.findOne({email: fields.useremail})
       let reportnumber = user.reportnumber + 1;
       const prevdate = new Date(user.startdate);
       const today = new Date();
       const priorDate = new Date(new Date().setDate(today.getDate() - 30));
       const d = priorDate.valueOf() - prevdate.valueOf();
-      if(user.reportlimit == user.reportnumber && d < 0){
+      // if(user.reportlimit == user.reportnumber && d < 0){
 
-        return res.status(400).send({error: "You can't report now!"})
+      //   return res.status(400).send({error: "You can't report now!"})
 
-      }else if(user.reportlimit == user.reportnumber && d > 0){
+      // }else if(user.reportlimit == user.reportnumber && d > 0){
 
-        reportnumber = 0
+      //   reportnumber = 0
         user.startdate = new Date();
 
-      }
+      // }
         const fileinfo = await saveFile(files.file)
-        user.reportnumber = reportnumber;
         await user.save()
 
         User.findOne({email: fields.useremail,}).exec(
@@ -43,7 +41,7 @@ const handler = async function handler(req:any, res:any) {
                   reportowner:result._id,
                   reporttype:"standard",
                   reportmedia:{filepath:fileinfo.path, filetype:fileinfo.type}, 
-                  reportgps:`${faker.address.latitude()} ${faker.address.longitude()}`,
+                  reportgps:fields.reportgps,
                   reportdate:new Date(),
                   reportedcar: fields.carnumber,  
                   reportfine:20,

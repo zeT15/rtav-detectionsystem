@@ -141,7 +141,7 @@ export default function ReportDataGrid(props: any) {
   const handlestatusClick = (params: any) => () => {
     const sendData = {
       id: params._id,
-      carnumber: params.caremployee.length > 0 ? params.caremployee[0].carnumber : " ",
+      carnumber: params.carowner.length > 0 ? params.carowner[0].carnumber : " ",
     }
     updatedata("upgrade", rows.filter((item: any) => item._id == params._id)[0]);
 
@@ -305,8 +305,8 @@ export default function ReportDataGrid(props: any) {
       width: 130,
       editable: false,
       renderCell: (params: any) => (
-        <Tooltip title={params.row.caremployee.length > 0 ? params.row.caremployee[0].phonenumber : ""}>
-          <span className="table-cell-trucate">{params.row.caremployee.length > 0 ? params.row.caremployee[0].phonenumber : ""}</span>
+        <Tooltip title={params.row.carowner.length > 0 ? params.row.carowner[0].phonenumber : ""}>
+          <span className="table-cell-trucate">{params.row.carowner.length > 0 ? params.row.carowner[0].phonenumber : ""}</span>
         </Tooltip>
       ),
     },

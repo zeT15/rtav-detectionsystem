@@ -15,11 +15,12 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import {toast } from "react-toastify";
 
 
+
 const drawerWidth = 240;
 
 
 export default function Navbar(props:any){
-
+    const {layoutData} = props;
     const router = useRouter();
 
     return(
@@ -33,16 +34,15 @@ export default function Navbar(props:any){
                 }}
             >
                 <Toolbar sx={{display:"flex"}} className="admin-navbar">
-                    
-                    <IconButton  
+                    {layoutData.user.usertype=="admin" && <IconButton  
                         color="inherit" 
                         edge="start"
                         onClick={props.priceSetModal}
                     >
                         <SettingsIcon></SettingsIcon>
                     </IconButton>
-
-                    <IconButton  
+                    }
+                    {/* <IconButton  
                         color="inherit" 
                         edge="start"
                         onClick={(e) => {
@@ -53,8 +53,8 @@ export default function Navbar(props:any){
                         }}
                     >
                         <TitleIcon></TitleIcon>
-                    </IconButton>
-                    <IconButton  
+                    </IconButton> */}
+                    {/* <IconButton  
                         color="inherit" 
                         edge="start"
                         onClick={(e) => {
@@ -65,20 +65,15 @@ export default function Navbar(props:any){
                         }}
                     >
                         <GroupAddIcon></GroupAddIcon>
-                    </IconButton>
+                    </IconButton> */}
                     <IconButton  
                         color="inherit" 
                         edge="start"
-                        onClick={(e) => {
-                            e.preventDefault();
-                            axios.get("/api/test/fakecars").then((res) => {
-                              toast.success(res.data);
-                            });
-                        }}
+                        onClick={props.carSetModal}
                     >
                         <DirectionsCarIcon></DirectionsCarIcon>
                     </IconButton>
-                    <IconButton  
+                    {/* <IconButton  
                         color="inherit" 
                         edge="start"
                         onClick={(e) => {
@@ -89,7 +84,7 @@ export default function Navbar(props:any){
                         }}
                     >
                         <ReportProblemIcon></ReportProblemIcon>
-                    </IconButton>
+                    </IconButton> */}
                     <IconButton
                         color="inherit"
                         aria-label="log out"

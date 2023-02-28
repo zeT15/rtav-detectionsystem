@@ -15,7 +15,7 @@ const handler = async function handler(req:any, res:any) {
                     from: "cars",
                     localField: "reportedcar",
                     foreignField: "carnumber",
-                    as: "caremployee"
+                    as: "carowner"
                 },
             },{
                 $lookup:
@@ -28,7 +28,6 @@ const handler = async function handler(req:any, res:any) {
               ,
             }
             ] );
-        // const filterReports = reports.filter(reports => reports.caremployee[0].owner = req.session.get("user")._id)
         return res.status(200).send(reports);
         }
         let reports = await Report.aggregate( [
@@ -38,7 +37,7 @@ const handler = async function handler(req:any, res:any) {
                     from: "cars",
                     localField: "reportedcar",
                     foreignField: "carnumber",
-                    as: "caremployee"
+                    as: "carowner"
                 },
            },{
                 $lookup:{
@@ -57,8 +56,8 @@ const handler = async function handler(req:any, res:any) {
          ] );
         if(req.session.get("user").usertype == "employee") {
             const filterReports = reports.filter(reports => {
-                if (reports.caremployee.length > 0 ){
-                    if(reports.caremployee[0].owner == req.session.get("user")._id) {
+                if (reports.carowner.length > 0 ){
+                    if(reports.carowner[0].employee == req.session.get("user")._id) {
                         return true
                     }
                 }

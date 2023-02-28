@@ -69,10 +69,11 @@ export default function ReportDataGrid(props:any) {
 
   const updatedata = (method:string,data:any) => {
     let flag = data.usertype;
+    console.log(data)
     const changeddata = {
       _id:data._id,
-      whatsapp:data.whatsapp,
-      type:data.usertype,
+      carnumber:data.carnumber,
+      phonenumber:data.phonenumber,
       permission:'true'
     }
     if(method==="upgrade"){
@@ -147,50 +148,41 @@ export default function ReportDataGrid(props:any) {
 
   const columns: GridColumns = [
     { field: '_id', headerName: '_id', width: 0, editable: false, hide: true },
-    { field: 'rname', 
-      headerName: '👥 Name', 
-      width: 200, 
-      editable: false,
-      sortable: false,
+    { field: 'carnumber', 
+      headerName: '👥 CarName', 
+      width: 300, 
+      editable: true,
+      sortable: true,
       renderCell: (params:any) =>  (
-        <Tooltip title={params.row.name}>
-          <span className="table-cell-trucate">{params.row.name}</span>
+        <Tooltip title={params.row.carnumber}>
+          <span className="table-cell-trucate">{params.row.carnumber}</span>
         </Tooltip>
       ),
      },
     { 
-      field: 'whatsapp', 
-      headerName: 'WhatApp Number 📱', 
-      width:200,
+      field: 'phonenumber', 
+      headerName: 'Owner Number 📱', 
+      width:300,
       editable: true,
-      sortable: false,
+      sortable: true,
       renderCell: (params:any) =>  (
-        <Tooltip title={params.row.whatsapp}>
-          <span className="table-cell-trucate">{params.row.whatsapp}</span>
+        <Tooltip title={params.row.phonenumber}>
+          <span className="table-cell-trucate">{params.row.phonenumber}</span>
         </Tooltip>
       ),
      },
-     { 
-      field: 'usertype', 
-      headerName: 'Type', 
-      width:200,
-      editable: true,
-      type: "singleSelect",
-      valueOptions : [
-        "common",
-        "employee",
-      ]
-     },
     {
       field: 'reportdate',
-      headerName: 'Date',
+      headerName: 'Employee Name',
       type: 'date',
-      width: 230,
+      width: 300,
       editable: false,
       renderCell: (params:any) =>  (
-        <Tooltip title={params.row.createdAt}>
-          <span className="table-cell-trucate">{params.row.createdAt}</span>
-        </Tooltip>
+
+          <Tooltip title={params.row.caremployee[0].name ? params.row.caremployee[0].name : ""}>
+          <span className="table-cell-trucate">{params.row.caremployee[0].name ? params.row.caremployee[0].name : ""}</span>
+          </Tooltip>
+        
       ),
       
     },

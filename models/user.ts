@@ -38,6 +38,7 @@ var userSchema = new Schema(
     permission: {
       type: String,
       requires: true,
+      default:"true",
     }
   },
   { timestamps: true }

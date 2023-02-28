@@ -5,22 +5,21 @@ import axios from "axios";
 import Admin from "../../../layouts/Admin";
 import { InferGetServerSidePropsType } from 'next'
 import { GetServerSideProps } from 'next'
-import UserDataGrid from "../../../components/DataGrid/UserDataGrid";
+import CarDataGrid from "../../../components/DataGrid/CarDataGrid";
 import sessionProps from "../../../next-middlewares/sessionProps";
 import {toast } from "react-toastify";
 
 
-
-const Users = ({layoutData}:InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const Cars = ({layoutData}:InferGetServerSidePropsType<typeof getServerSideProps>) => {
 
     const [data, setData] = useState([])
     const router = useRouter()
-    const flag = "users";
+    const flag = "cars";
 
 
     const getdata = () => {
         axios
-        .post("/api/admin/dashboard/getuserdata")
+        .post("/api/admin/dashboard/getcardata")
         .then((res:any) => {
             setData(res.data);
         })
@@ -32,16 +31,17 @@ const Users = ({layoutData}:InferGetServerSidePropsType<typeof getServerSideProp
     
     const updatedata = (data:any) => {
         axios
-            .post("/api/admin/dashboard/setuserdata", data)
+            .post("/api/admin/dashboard/setcardata", data)
             .then((res:any) => {
-                getdata();
                 switch (data.permission) {
                     case "true":
-                        toast.success("A userdata is changed successfully!")
+                        toast.success("A cardata is changed successfully!")
+                        getdata();
                         
                         break;
                     case "false":
-                        toast.success("A user is deleted successfully!")
+                        toast.success("A car is deleted successfully!")
+                        getdata();
                     default:
                         break;
                 }
@@ -61,13 +61,13 @@ const Users = ({layoutData}:InferGetServerSidePropsType<typeof getServerSideProp
 
     return(
         <Admin flag={flag} layoutData={layoutData}>
-            <UserDataGrid filterkey={flag} data={data} updateData={updatedata}/>
+            <CarDataGrid filterkey={flag} data={data} updateData={updatedata}/> 
         </Admin>
     )
 }
 
 
-export default Users;
+export default Cars;
 
 export const getServerSideProps:GetServerSideProps = async function (context:any) {
     let layoutData = await sessionProps(context);

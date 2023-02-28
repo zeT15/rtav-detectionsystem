@@ -22,7 +22,7 @@ const handler = async function handler(req: NextApiRequest, res: NextApiResponse
                 from: "cars",
                 localField: "reportedcar",
                 foreignField: "carnumber",
-                as: "caremployee"
+                as: "carowner"
             },
         },{
             $lookup:
@@ -36,12 +36,12 @@ const handler = async function handler(req: NextApiRequest, res: NextApiResponse
         },
     ] );
     if(report.length>0) {
-        if(report[0].caremployee.length > 0) {
+        if(report[0].carowner.length > 0) {
             const qrData = JSON.stringify({
                 id: report[0]._id,
-                carnumber: report[0].caremployee[0].carnumber,
+                carnumber: report[0].carowner[0].carnumber,
                 totalPrice: report[0].reportfine,
-                reporterPrice:report[0].reportfine * 0.9,
+                reporterPrice:report[0].reportfine * report[0].fee /100,
                 date: report[0].reportdate,
                 payState: "NO",
                 filepath: report[0].reportmedia.filepath,
@@ -54,25 +54,25 @@ const handler = async function handler(req: NextApiRequest, res: NextApiResponse
                 }, function (err:any) {
                     if (err) throw err;
                 });
-                client.messages
-                .create({
-                    body: `${uploadrUrl}/qr/_new${req.body.id}.png`,
-                    from: phone,
-                    to: '+447458196483'
-                    // to:report[0].caremployee[0].phonenumber
-                })
-                .then((message:any) =>{
-                    // console.log(message);
-                    res.json({
-                        success: true,
-                    })
-                })
-                .catch((error:any) => {
-                    // console.log(error);
-                    res.json({
-                        success: false,
-                    });
-                });
+                // client.messages
+                // .create({
+                //     body: `${uploadrUrl}/qr/_new${req.body.id}.png`,
+                //     from: phone,
+                //     to: '+447458196483'
+                //     // to:report[0].carowner[0].phonenumber
+                // })
+                // .then((message:any) =>{
+                //     // console.log(message);
+                //     res.json({
+                //         success: true,
+                //     })
+                // })
+                // .catch((error:any) => {
+                //     // console.log(error);
+                //     res.json({
+                //         success: false,
+                //     });
+                // });
             }
         } else {
             res.json({

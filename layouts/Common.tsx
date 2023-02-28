@@ -6,12 +6,15 @@ import ReportAdd from "../components/Common/ReportAdd";
 import axios, { AxiosRequestConfig } from "axios";
 import {toast } from "react-toastify";
 
+// import { geolocated } from "react-geolocated";
+
 export default function Common ({children, layoutData}:InferProps<typeof Common.propTypes>) {
     
     const router = useRouter();
     const [reports, setReports] = useState<any>([])
     const [reporttypes, setReporttypes] = useState<any>([])
-
+    var [latitude, setLatitude] =useState<any>("")
+    var [longitude, setLongitude] =useState<any>("")
     React.useEffect(() => {
         console.log("Common",layoutData);
         if (!layoutData.user)
@@ -50,11 +53,16 @@ export default function Common ({children, layoutData}:InferProps<typeof Common.
 
     const uploadandsubmit = async (file:any, carnumber:string) => {
 
+        navigator.geolocation.getCurrentPosition(function(position) {
+            setLatitude(position.coords.latitude);
+            setLongitude(position.coords.longitude);
+        });
         try {
             let formData = new FormData();
             formData.append("useremail", layoutData.user.email)
             formData.append("carnumber", carnumber)
             formData.append("file", file);
+            formData.append("reportgps", `${latitude}-${longitude}`)
 
             const options: AxiosRequestConfig = {
                 headers: { "Content-Type": "multipart/form-data" },
