@@ -49,37 +49,55 @@ const handler = async function handler(req: NextApiRequest, res: NextApiResponse
                 reporter_email: report[0].carreporter[0].email,
             });
             if (req.method == "POST") {
+
+                // attachments: [
+                //     {
+                //       data: generateQRCode(),
+                //       type: 'image/png',
+                //       filename: 'qr-code.png',
+                //     },
+                //   ],
                 QRCode.toFile(`./public/uploads/qr/_new${req.body.id}.png`, qrData, {
                     errorCorrectionLevel: 'H'
-                }, function (err:any) {
+                }, function (err:any, url:any) {
                     if (err) throw err;
+                    console.log(url);
                 });
+                client.messages
+                .create({
+                    body: 'Hello there!',
+                    from: 'whatsapp:+14155238886',
+                    to: 'whatsapp:+17245900262',
+                    // to:report[0].carowner[0].phonenumber
+                })
+                .then(message => console.log(message.sid));
+
                 // client.messages
                 // .create({
                 //     body: `${uploadrUrl}/qr/_new${req.body.id}.png`,
-                //     from: phone,
-                //     to: '+447458196483'
+                //     from: 'whatsapp:'+phone,
+                //     to: 'whatsapp:+447458196483'
                 //     // to:report[0].carowner[0].phonenumber
                 // })
                 // .then((message:any) =>{
-                //     // console.log(message);
+                //     console.log(message);
                 //     res.json({
                 //         success: true,
                 //     })
                 // })
                 // .catch((error:any) => {
-                //     // console.log(error);
+                //     console.log(error, "sdfsdfsdf");
                 //     res.json({
-                //         success: false,
+                //         success: "false",
                 //     });
                 // });
-                res.json({
-                    success:true
-                })
+                // res.json({
+                //     success:"true"
+                // })
             }
         } else {
             res.json({
-                success:false,
+                success:"false",
                 message:"Unregistered Car Number"
             })
         }

@@ -19,13 +19,13 @@ const handler = async function handler(req: NextApiRequest, res: NextApiResponse
         .then((message:any) =>{
             console.log(message);
             res.json({
-                success: true,
+                success: "true",
             })
         })
         .catch((error:any) => {
             // console.log(error);
             res.json({
-                success: false,
+                success: "false",
             });
         });
     }

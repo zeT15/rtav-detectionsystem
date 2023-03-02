@@ -148,10 +148,10 @@ export default function ReportDataGrid(props: any) {
             axios.post("/api/twilio/newQrcode", sendData)
             .then((res: any) => {
               switch (res.data.success) {
-                case true:
+                case "true":
                   toast.success("Message successfully sent!");
                     updatedata("upgrade", rows.filter((item: any) => item._id == params._id)[0]);
-                case false:
+                case "false":
                   toast.error(res.data.message);
                   break;
               
@@ -171,10 +171,10 @@ export default function ReportDataGrid(props: any) {
           axios.post("/api/twilio/checkQrcode", sendData)
             .then((res: any) => {
               switch (res.data.success) {
-                case true:
+                case "true":
                   toast.success("Message successfully sent!");
                     updatedata("upgrade", rows.filter((item: any) => item._id == params._id)[0]);
-                  case false:
+                  case "false":
                   toast.error(res.data.message);
                   break;
                 default:
@@ -193,10 +193,10 @@ export default function ReportDataGrid(props: any) {
           axios.post("/api/twilio/fineMessage", sendData)
             .then((res:any)=>{
               switch (res.data.success) {
-                case true:
+                case "true":
                   toast.success("Message successfully sent!");
                     updatedata("upgrade", rows.filter((item: any) => item._id == params._id)[0]);
-                  case false:
+                  case "false":
                   toast.error(res.data.message);
                   break;
                 default:

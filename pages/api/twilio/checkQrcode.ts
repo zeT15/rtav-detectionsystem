@@ -49,13 +49,13 @@ const handler = async function handler(req: NextApiRequest, res: NextApiResponse
                 }, function (err:any) {
                     if (err) throw err;
                     res.json({
-                        success:true
+                        success:"true"
                     })
                 });
             }
         } else {
             res.json({
-                success:false
+                success:"false"
             })
         }
     }
