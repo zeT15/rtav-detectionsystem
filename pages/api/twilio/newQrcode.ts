@@ -71,7 +71,9 @@ const handler = async function handler(req: NextApiRequest, res: NextApiResponse
                     // to:report[0].carowner[0].phonenumber
                 })
                 .then(message => console.log(message.sid));
-
+                res.json({
+                    success:"true"
+                })
                 // client.messages
                 // .create({
                 //     body: `${uploadrUrl}/qr/_new${req.body.id}.png`,
