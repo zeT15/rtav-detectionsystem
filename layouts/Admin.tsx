@@ -13,6 +13,15 @@ import DialogContent from '@mui/material/DialogContent';
 import axios from "axios";
 import Button from '@mui/material/Button';
 import {toast } from "react-toastify";
+import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
+
+const DialogContentStyle = {
+    textAlign: "center",
+}
+const DialogPartStyle = {
+    margin: "10px",
+}
 
 
 export default function Admin({ children, layoutData, flag }: InferProps<typeof Admin.propTypes>) {
@@ -70,6 +79,10 @@ export const SetModal = (props:any) => {
         setPrice(event.target.value)
     }
     const priceSet = () => {
+        if(price == "") {
+            toast.error("Enter Fee");
+            return;
+        }
         axios.post('/api/admin/dashboard/priceset',{price})
         .then((res:any) => {
             toast.success("Fee is changed!");
@@ -82,9 +95,19 @@ export const SetModal = (props:any) => {
         onClose={close}
         aria-labelledby="responsive-dialog-title"
         >
-      <DialogContent>
-        <Input type="number" className="px-4 border-2 border-blue-500 hover:border-blue-700 focus:border-blue-700" placeholder="Enter fee price" value={price} onChange={(e) => pricechange(e)}></Input><br/>
-        <Button onClick={priceSet}>Change</Button>
+      <DialogContent sx={DialogContentStyle}>
+        <Typography style={DialogPartStyle} id="modal-modal-title" variant="h6" component="h2">
+            Fee Setting
+        </Typography>
+        <br/>
+        <TextField style={DialogPartStyle}
+          required
+          id="outlined-required"
+          label="Set Fee (%)"
+          value={price} onChange={(e) => pricechange(e)}
+          />
+          <br/>
+        <Button style={DialogPartStyle} onClick={priceSet}>Change</Button>
       </DialogContent>
     </Dialog>
 )
@@ -103,6 +126,14 @@ export const CarModal = (props:any) => {
     }
 
     const carRegister = () => {
+        if(carnumber=="") {
+            toast.error("Enter Car Number!");
+            return;
+        }
+        if(carownerPhone=="") {
+            toast.error("Enter Owner WhatsApp Number");
+            return;
+        }
         axios.post('/api/admin/dashboard/carset',
         {
             carnumber:carnumber,
@@ -131,11 +162,30 @@ export const CarModal = (props:any) => {
         onClose={close}
         aria-labelledby="responsive-dialog-title"
         >
-      <DialogContent>
-        <Input type="text" className="px-4 border-2 border-blue-500 hover:border-blue-700 focus:border-blue-700" placeholder="Enter car number" value={carnumber} onChange={(e) => carnumberSet(e)}></Input><br/>
-        <Input type="number" className="px-4 border-2 border-blue-500 hover:border-blue-700 focus:border-blue-700" placeholder="Enter owner number" value={carownerPhone} onChange={(e) => carownerPhoneSet(e)}></Input><br/>
-        <Button onClick={carRegister}>Register</Button>
-      </DialogContent>
+      <DialogContent 
+        sx={DialogContentStyle}
+      >
+        <Typography style={DialogPartStyle} id="modal-modal-title" variant="h6" component="h2">
+            Car Register
+        </Typography>
+        <TextField style={DialogPartStyle}
+          required
+          id="outlined-required"
+          label="Car Number"
+          value={carnumber} onChange={(e) => carnumberSet(e)}
+        />
+
+        <TextField style={DialogPartStyle}
+          required
+          id="outlined-required"
+          label="Owner WhatsApp Number"
+          value={carownerPhone} onChange={(e) => carownerPhoneSet(e)}
+        />        
+        {/* <InputLabel>Car Number: <Input type="text" className="px-4 border-2 border-blue-500 hover:border-blue-700 focus:border-blue-700" placeholder="Enter car number" value={carnumber} onChange={(e) => carnumberSet(e)}></Input></InputLabel> */}
+        {/* <InputLabel>Owner Whatsapp<Input type="number" className="px-4 border-2 border-blue-500 hover:border-blue-700 focus:border-blue-700" placeholder="Enter owner number" value={carownerPhone} onChange={(e) => carownerPhoneSet(e)}></Input></InputLabel> */}
+        <br/>
+        <Button style={DialogPartStyle} onClick={carRegister}>Register</Button>
+      </DialogContent> 
     </Dialog>
 )
 }

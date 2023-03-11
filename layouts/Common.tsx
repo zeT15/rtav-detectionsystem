@@ -8,8 +8,15 @@ import {toast } from "react-toastify";
 
 // import { geolocated } from "react-geolocated";
 
+interface FileInfoType{
+    media:string,
+    currentfile:object,
+    filetype:string
+}
+
+
 export default function Common ({children, layoutData}:InferProps<typeof Common.propTypes>) {
-    
+    const [data, setData] = useState<FileInfoType>({media:"", currentfile:{}, filetype:""});
     const router = useRouter();
     const [reports, setReports] = useState<any>([])
     const [reporttypes, setReporttypes] = useState<any>([])
@@ -72,7 +79,8 @@ export default function Common ({children, layoutData}:InferProps<typeof Common.
                         toast.error(res.data.message)
                         break;
                     case "success":
-                        toast.success(res.data.message)
+                        toast.success(res.data.message);
+                        setData({media:"", currentfile:{}, filetype:""})
                     default:
                         break;
                 }
@@ -115,7 +123,7 @@ export default function Common ({children, layoutData}:InferProps<typeof Common.
                             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-36">Add Report</button>
                         </div>
                         <div className="w-100">
-                            <ReportAdd uploadfile={uploadandsubmit} typesdata={reporttypes}></ReportAdd>
+                            <ReportAdd uploadfile={uploadandsubmit} typesdata={reporttypes} setData={setData} data={data}></ReportAdd>
                             {children}
                         </div>
                     </div>

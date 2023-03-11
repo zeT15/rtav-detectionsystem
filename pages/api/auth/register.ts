@@ -36,7 +36,8 @@ const handler = async function handler(req:any, res:any) {
       email: "admin@gmail.com",
       name: "Admin",
       password: password,
-      usertype:"admin"
+      permissing: "true",
+      usertype: "admin"
     });
     await admin.save();
 

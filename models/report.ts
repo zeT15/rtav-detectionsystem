@@ -43,7 +43,7 @@ var reportSchema = new Schema(
       },
       fee:{
         type:Number,
-        default: 0.9,
+        default: 90,
       }
     },
     { timestamps: true }

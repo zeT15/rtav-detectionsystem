@@ -2,9 +2,10 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import Report from "../../../models/report";
 
 import mongoose from 'mongoose';
+const QRCode = require('qrcode');
+const serverUrl = <string>process.env.SERVER_URL     
 
 const handler = async function handler(req: NextApiRequest, res: NextApiResponse) {
-    const QRCode = require('qrcode');
     let report = await Report.aggregate( [
         {
             $match: {
@@ -39,20 +40,31 @@ const handler = async function handler(req: NextApiRequest, res: NextApiResponse
                 reporterPrice:report[0].reportfine * report[0].fee /100,
                 date: report[0].reportdate,
                 payState: "YES",
-                filepath: report[0].reportmedia.filepath,
+                filepath:serverUrl + report[0].reportmedia.filepath,
                 reporter_name: report[0].carreporter[0].name,
                 reporter_email: report[0].carreporter[0].email,
             });
-            if (req.method == "POST") {
-                QRCode.toFile(`./public/uploads/qr/_check${req.body.id}.png`, qrData, {
-                    errorCorrectionLevel: 'H'
-                }, function (err:any) {
-                    if (err) throw err;
-                    res.json({
-                        success:"true"
-                    })
-                });
-            }
+            // QRCode.toDataURL(qrData, { errorCorrectionLevel: 'H' }, (err:any, url:any) => {
+                //     if (err) {
+                //       console.error(err);
+                //       return;
+                //     }
+                //     client.messages
+                //     .create({
+                //         body: 'Here is your QR code:',
+                //         from: 'whatsapp:TWILIO_WHATSAPP_NUMBER',
+                //         to: 'whatsapp:YOUR_REGISTERED_NUMBER',
+                //         to: 'whatsapp:+'+report[0].carreporter[0].whatsapp.replace(/\D/g, '');
+                //         mediaUrl: url,
+                //     })
+                //     .then((message) => console.log(message.sid))
+                //     .catch((err) => console.error(err));
+
+                //     console.log(url); // this will print the base64 encoded image data URI
+                //   });
+                res.json({
+                    success:"true"
+                })
         } else {
             res.json({
                 success:"false"

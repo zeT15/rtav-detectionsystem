@@ -98,8 +98,21 @@ export default function ReportDataGrid(props: any) {
   };
 
   const handleModalOpen = (params: any) => {
-    setQrPath(`/uploads/qr/_new${params._id}.png`)
-    setModalopen(true)
+    // setQrPath(`/uploads/qr/_new${params._id}.png`)
+
+    axios.post("/api/twilio/getQrcode", { id: params._id, state: params.reportflag })
+      .then((res: any) => {
+        switch (res.data.success) {
+          case "true":
+            setQrPath(res.data.message)
+            setModalopen(true)
+            break;
+          case "false":
+            toast.error(res.data.message)
+          default:
+            break;
+        }
+      })
   }
 
   const handleModalClose = () => {
@@ -145,86 +158,86 @@ export default function ReportDataGrid(props: any) {
     }
     switch (params.reportflag) {
       case "new":
-            axios.post("/api/twilio/newQrcode", sendData)
-            .then((res: any) => {
-              switch (res.data.success) {
-                case "true":
-                  toast.success("Message successfully sent!");
-                    updatedata("upgrade", rows.filter((item: any) => item._id == params._id)[0]);
-                case "false":
-                  toast.error(res.data.message);
-                  break;
-              
-                default:
-                  break;
-              }
-              return;
-            })
-            .catch((err) => {
-              return;
-            })
-            .finally(() => {
-              return;
-            });
-          break;
+        axios.post("/api/twilio/newQrcode", sendData)
+          .then((res: any) => {
+            switch (res.data.success) {
+              case "true":
+                toast.success("Message successfully sent to Owner!");
+                updatedata("upgrade", rows.filter((item: any) => item._id == params._id)[0]);
+              case "false":
+                toast.error(res.data.message);
+                break;
+
+              default:
+                break;
+            }
+            return;
+          })
+          .catch((err) => {
+            return;
+          })
+          .finally(() => {
+            return;
+          });
+        break;
       case "check":
-          axios.post("/api/twilio/checkQrcode", sendData)
-            .then((res: any) => {
-              switch (res.data.success) {
-                case "true":
-                  toast.success("Message successfully sent!");
-                    updatedata("upgrade", rows.filter((item: any) => item._id == params._id)[0]);
-                  case "false":
-                  toast.error(res.data.message);
-                  break;
-                default:
-                  break;
-              }
-              return;
-            })
-            .catch((err) => {
-              return;
-            })
-            .finally(() => {
-              return;
-            });
+        axios.post("/api/twilio/checkQrcode", sendData)
+          .then((res: any) => {
+            switch (res.data.success) {
+              case "true":
+                toast.success("Message successfully sent to Reporter");
+                updatedata("upgrade", rows.filter((item: any) => item._id == params._id)[0]);
+              case "false":
+                toast.error(res.data.message);
+                break;
+              default:
+                break;
+            }
+            return;
+          })
+          .catch((err) => {
+            return;
+          })
+          .finally(() => {
+            return;
+          });
         break;
       case "fine":
-          axios.post("/api/twilio/fineMessage", sendData)
-            .then((res:any)=>{
-              switch (res.data.success) {
-                case "true":
-                  toast.success("Message successfully sent!");
-                    updatedata("upgrade", rows.filter((item: any) => item._id == params._id)[0]);
-                  case "false":
-                  toast.error(res.data.message);
-                  break;
-                default:
-                  break;
-              }
-              return;
-            })
-            .catch((err) => {
-              return;
-            })
-            .finally(() => {
-              return;
-            })
-            break;
-        case "paid":
-          axios.post("/api/twilio/paid", sendData)
-            .then((res:any)=>{
-              toast.success("Paid message successfully sent!")
-              return;
-            })
-            .catch((err) => {
-              return;
-            })
-            .finally(() => {
-              return;
-            })
-            break;
-          default:
+        axios.post("/api/twilio/fineMessage", sendData)
+          .then((res: any) => {
+            switch (res.data.success) {
+              case "true":
+                toast.success("Operation was successful");
+                updatedata("upgrade", rows.filter((item: any) => item._id == params._id)[0]);
+              case "false":
+                toast.error(res.data.message);
+                break;
+              default:
+                break;
+            }
+            return;
+          })
+          .catch((err) => {
+            return;
+          })
+          .finally(() => {
+            return;
+          })
+        break;
+      case "paid":
+        axios.post("/api/twilio/paid", sendData)
+          .then((res: any) => {
+            toast.success("This point is complated!")
+            return;
+          })
+          .catch((err) => {
+            return;
+          })
+          .finally(() => {
+            return;
+          })
+        break;
+      default:
         break;
     }
     // updatedata("upgrade", rows.filter((item: any) => item._id == params._id)[0]);

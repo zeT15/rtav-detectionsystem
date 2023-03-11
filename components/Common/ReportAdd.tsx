@@ -1,27 +1,24 @@
 import React, {useState, ChangeEvent, useEffect} from "react";
 import {toast } from "react-toastify";
 
-interface FileInfoType{
-    media:string,
-    currentfile:object,
-    filetype:string
-}
 
 export default function ReportAdd(props:any){
-    const [data, setdata] = useState<FileInfoType>({media:"", currentfile:{}, filetype:""});
-
+    // const [data, setdata] = useState<FileInfoType>({media:"", currentfile:{}, filetype:""});
+    const { data,setData } = props
+    
     const [selected, setSelected] = useState("");
-
+    
     const [carnumber, setCarnumber] = useState("");
-
+    
     useEffect(()=>{
         const data = props.typesdata[0] ?? "";
         setSelected(data._id)
-    },[props.typesdata]);
+    },[data]);
 
     const selectchange = (event:ChangeEvent<HTMLSelectElement>) => {
         setSelected(event.target.value);
     }
+
     const editchange = (event:ChangeEvent<HTMLInputElement>) => {
 
         const data = event.target;
@@ -39,19 +36,17 @@ export default function ReportAdd(props:any){
     
         if (!fileInput.files || fileInput.files.length === 0) {
           toast.error("Files list is empty");
-          setdata({media:"", currentfile:{}, filetype:""})
+          setData({media:"", currentfile:{}, filetype:""})
           return;
         }
-    
+        
         const file = fileInput.files[0];
-
         const path = URL.createObjectURL(file);
 
         const filetype = file.type
-
-        setdata({media:path, currentfile:file, filetype:filetype});
+        setData({media:path, currentfile:file, filetype:filetype});
+        setCarnumber("")
     }
-
     const uploadvideo = () =>{
         if(carnumber == "")
         {
