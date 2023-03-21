@@ -24,7 +24,7 @@ export default function Login(){
         axios
           .post(`/api/auth/login`, user)
           .then((res) => {
-            toast.success("Login Successfule");
+            toast.success("Login Success");
             if(res.data.usertype === "admin"){
                 router.push("/admin/dashboard/all");
             }
@@ -39,7 +39,7 @@ export default function Login(){
             if(err.response){
                 setErrors(err.response.data)
             } else {
-                toast.error("Unable to Login Try Again");
+                toast.error("Unable to Login, Try Again");
             } 
           })
           .finally(() => {

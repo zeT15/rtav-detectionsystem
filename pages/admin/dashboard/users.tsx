@@ -1,23 +1,16 @@
 import React, { useEffect, useState } from "react";
 import {useRouter} from "next/router";
 import axios from "axios";
-
 import Admin from "../../../layouts/Admin";
-import { InferGetServerSidePropsType } from 'next'
-import { GetServerSideProps } from 'next'
+import { InferGetServerSidePropsType, GetServerSideProps } from 'next'
 import UserDataGrid from "../../../components/DataGrid/UserDataGrid";
 import sessionProps from "../../../next-middlewares/sessionProps";
 import {toast } from "react-toastify";
 
-
-
 const Users = ({layoutData}:InferGetServerSidePropsType<typeof getServerSideProps>) => {
 
-    const [data, setData] = useState([])
-    const router = useRouter()
+    const [data, setData] = useState([]);
     const flag = "users";
-
-
     const getdata = () => {
         axios
         .post("/api/admin/dashboard/getuserdata")
@@ -38,7 +31,6 @@ const Users = ({layoutData}:InferGetServerSidePropsType<typeof getServerSideProp
                 switch (data.permission) {
                     case "true":
                         toast.success("A userdata is changed successfully!")
-                        
                         break;
                     case "false":
                         toast.success("A user is deleted successfully!")
@@ -66,10 +58,9 @@ const Users = ({layoutData}:InferGetServerSidePropsType<typeof getServerSideProp
     )
 }
 
-
-export default Users;
-
-export const getServerSideProps:GetServerSideProps = async function (context:any) {
+const getServerSideProps:GetServerSideProps = async function (context:any) {
     let layoutData = await sessionProps(context);
     return { props: { layoutData } };
 };
+
+export default Users;

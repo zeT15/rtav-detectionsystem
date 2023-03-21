@@ -8,15 +8,10 @@ import { GetServerSideProps } from 'next'
 import ReportDataGrid from "../../../components/DataGrid/ReportDataGrid";
 import sessionProps from "../../../next-middlewares/sessionProps";
 
-
-
 const Dashboard = ({layoutData}:InferGetServerSidePropsType<typeof getServerSideProps>) => {
-
     const [data, setData] = useState([])
     const router = useRouter()
     const {flag} = router.query
-
-
     const getdata = () => {
         axios
         .post("/api/admin/dashboard/getdata", {flag:flag})
@@ -24,14 +19,14 @@ const Dashboard = ({layoutData}:InferGetServerSidePropsType<typeof getServerSide
             setData(res.data);
         })
         .catch((err) => {
+            console.log(err);
         })
         .finally(() => {
         });
     }
     
     const updatedata = (data:any) => {
-        axios
-            .post("/api/admin/dashboard/setdata", data)
+        axios.post("/api/admin/dashboard/setdata", data)
             .then((res:any) => {
                 getdata();
             })
@@ -56,10 +51,9 @@ const Dashboard = ({layoutData}:InferGetServerSidePropsType<typeof getServerSide
     )
 }
 
-
-export default Dashboard;
-
-export const getServerSideProps:GetServerSideProps = async function (context:any) {
+const getServerSideProps:GetServerSideProps = async function (context:any) {
     let layoutData = await sessionProps(context);
     return { props: { layoutData } };
 };
+
+export default Dashboard;

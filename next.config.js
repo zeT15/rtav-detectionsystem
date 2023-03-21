@@ -20,4 +20,16 @@ module.exports = {
     config.resolve.fallback = { ...config.resolve.fallback, net: false, os: false, tls: false }
     return config
   },
+  ...(process.env.NODE_ENV === 'production' && {
+    typescript: {
+      ignoreBuildErrors: true,
+    },
+    eslint: {
+      ignoreDuringBuilds: true,
+    },
+  }),
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 }
+

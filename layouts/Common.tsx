@@ -27,13 +27,13 @@ export default function Common ({children, layoutData}:InferProps<typeof Common.
             setLatitude(position.coords.latitude);
             setLongitude(position.coords.longitude);
         });
-        if (!layoutData.user)
+        if (!layoutData?.user)
             router.push("/auth/login")
     }, []);
 
     const getreportinfo = async () => {
         axios
-            .post("/api/common/getreporterinfo", layoutData.user)
+            .post("/api/common/getreporterinfo", layoutData?.user)
             .then((res:any) => {
                 setReports(res.data);
             })
@@ -45,7 +45,7 @@ export default function Common ({children, layoutData}:InferProps<typeof Common.
 
     const getreporttypes = async () => {
         axios
-            .post("/api/common/getreporttypes", layoutData.user)
+            .post("/api/common/getreporttypes", layoutData?.user)
             .then((res:any) => {
 
                 setReporttypes(res.data);
@@ -64,7 +64,7 @@ export default function Common ({children, layoutData}:InferProps<typeof Common.
     const uploadandsubmit = async (file:any, carnumber:string) => {
         try {
             let formData = new FormData();
-            formData.append("useremail", layoutData.user.email)
+            formData.append("useremail", layoutData?.user?.email)
             formData.append("carnumber", carnumber)
             formData.append("file", file);
             formData.append("reportgps", latitude + "-" +longitude)
@@ -100,11 +100,11 @@ export default function Common ({children, layoutData}:InferProps<typeof Common.
 
     return (
         <>
-                {layoutData.user&&
+                {layoutData?.user&&
                 <div className="w-full">
                 <div className="w-10/12 lg:w-9/12 mx-auto mt-8 divide-y">
                     <div className="w-100 flex justify-between my-1 p-1">
-                        <h1 className="font-sans text-2xl font-semibold text-emerald-600 md:text-3xl lg:text-4xl">{`Hi 👋 ${layoutData.user.name}`}</h1>
+                        <h1 className="font-sans text-2xl font-semibold text-emerald-600 md:text-3xl lg:text-4xl">{`Hi 👋 ${layoutData?.user?.name}`}</h1>
                         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-36"
                             onClick={(e) => {
                                 e.preventDefault();

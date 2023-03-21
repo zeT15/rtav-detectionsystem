@@ -3,20 +3,17 @@ import {useRouter} from "next/router";
 import axios from "axios";
 
 import Admin from "../../../layouts/Admin";
-import { InferGetServerSidePropsType } from 'next'
-import { GetServerSideProps } from 'next'
+import { InferGetServerSidePropsType } from 'next';
+import { GetServerSideProps } from 'next';
 import CarDataGrid from "../../../components/DataGrid/CarDataGrid";
 import sessionProps from "../../../next-middlewares/sessionProps";
-import {toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 
 const Cars = ({layoutData}:InferGetServerSidePropsType<typeof getServerSideProps>) => {
-
     const [data, setData] = useState([])
-    const router = useRouter()
+    const router = useRouter();
     const flag = "cars";
-
-
     const getdata = () => {
         axios
         .post("/api/admin/dashboard/getcardata")
@@ -66,10 +63,8 @@ const Cars = ({layoutData}:InferGetServerSidePropsType<typeof getServerSideProps
     )
 }
 
-
-export default Cars;
-
-export const getServerSideProps:GetServerSideProps = async function (context:any) {
+const getServerSideProps:GetServerSideProps = async function (context:any) {
     let layoutData = await sessionProps(context);
     return { props: { layoutData } };
 };
+export default Cars;

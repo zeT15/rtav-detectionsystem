@@ -8,7 +8,7 @@ import _ from "lodash";
 const handler = async function handler(req:any, res:any) {
     if (req.method == "POST") {
         let user = await User.findOne({_id:new mongoose.Types.ObjectId(req.session.get("user")._id)})
-        if(user.usertype != "common") {
+        if(user?.usertype != "common") {
             const car = await Car.findOne({carnumber:req.body.carnumber})
             if(!car) {
                 let newcar = new Car({ 

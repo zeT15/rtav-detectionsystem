@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "node server.js",
     "clean": "rimraf node_modules/.cache .next",
-    "lint": "next lint"
+    "lint": "next lint",
+    "export": "next build && next export"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",
