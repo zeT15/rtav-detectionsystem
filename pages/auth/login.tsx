@@ -15,9 +15,7 @@ export default function Login(){
       });
      
       const [fetching, setFetching] = React.useState(false);
-
       const [errors, setErrors] = React.useState({name:null, email:null, password:null});
-    
     const handleSubmit = (e:React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
         setFetching(true);

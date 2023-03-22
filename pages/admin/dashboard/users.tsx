@@ -58,7 +58,7 @@ const Users = ({layoutData}:InferGetServerSidePropsType<typeof getServerSideProp
     )
 }
 
-const getServerSideProps:GetServerSideProps = async function (context:any) {
+export const getServerSideProps:GetServerSideProps = async function (context:any) {
     let layoutData = await sessionProps(context);
     return { props: { layoutData } };
 };

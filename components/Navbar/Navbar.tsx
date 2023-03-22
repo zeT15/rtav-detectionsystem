@@ -34,7 +34,7 @@ export default function Navbar(props:any){
                 }}
             >
                 <Toolbar sx={{display:"flex"}} className="admin-navbar">
-                    {layoutData?.user?.usertype=="admin" && <IconButton  
+                    {layoutData.user.usertype=="admin" && <IconButton  
                         color="inherit" 
                         edge="start"
                         onClick={props.priceSetModal}

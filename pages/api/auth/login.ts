@@ -12,9 +12,7 @@ const handler = async function handler(req:any, res:any) {
     let user = await User.findOne({
       email: req.body.email,
     });
-    // console.log(user);
     if (!user) return res.status(400).send({ email: "Account Does Not Exist" });
-
     const validPassword = await bcrypt.compare(
       req.body.password,
       user.password
@@ -29,9 +27,7 @@ const handler = async function handler(req:any, res:any) {
 
     if (!validPassword)
       return res.status(400).send({ password: "Invalid password" });
-
-
-    req.session.set("user", _.pick(user, ["_id", "email", "name", "usertype"]));
+    await req.session.set("user", _.pick(user, ["_id", "email", "name", "usertype"]));
     await req.session.save();
     return res.status(200).send(user);
   }

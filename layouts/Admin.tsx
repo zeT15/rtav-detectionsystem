@@ -23,7 +23,6 @@ const DialogPartStyle = {
     margin: "10px",
 }
 
-
 export default function Admin({ children, layoutData, flag }: InferProps<typeof Admin.propTypes>) {
 
     const router = useRouter();
@@ -44,9 +43,9 @@ export default function Admin({ children, layoutData, flag }: InferProps<typeof 
     }
 
     React.useEffect(() => {
-        if (!layoutData?.user)
+        if (!layoutData.user)
             router.push("/auth/login")
-        else if (layoutData?.user?.usertype != "admin" && layoutData?.user?.usertype != "employee") {
+        else if (layoutData.user.usertype != "admin" && layoutData.user.usertype != "employee") {
             router.push("/common/mainboard")
         }
     }, []);

@@ -42,7 +42,7 @@ export default function Sidebar(props: any, data: Props) {
                     <List>
                         {group.data.map((item: any) => {
                             const role = item.role
-                            if (role.includes(props.layoutData?.user?.usertype)) {
+                            if (role.includes(props.layoutData.user.usertype)) {
                                 return <ListItem
                                     key={item.key}
                                     disablePadding

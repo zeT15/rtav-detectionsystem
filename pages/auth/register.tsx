@@ -26,14 +26,14 @@ export default function Register(){
         axios
         .post("/api/auth/register", user)
         .then((res) => {
-          toast.success("Registeration Successfule");
+          toast.success("Registeration Success");
           router.push("/auth/login");
         })
         .catch((err) => {
           console.log(err);
           if (err.response) {
             setErrors(err.response.data);
-          } else toast.error("Somathing Bad Happened");
+          } else toast.error("Something Bad Happened");
         })
         .finally(() => {
           setFetching(false);
