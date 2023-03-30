@@ -19,6 +19,32 @@ export default function Register(){
     const [user, setUser] = React.useState({name:"",email:"",password:"",whatsapp:""})
     const [errors, setErrors] = React.useState({name:null, email:null, password:null, whatsapp:null});
     const [fetching, setFetching] = React.useState(false);
+    const [isZim, setIsZim] = React.useState(true);
+
+    const changeZimbabweNumber = () => {
+        let wNum = user.whatsapp;
+        if(!wNum)
+            wNum = "";
+        if(!isZim){
+            if(wNum.substring(0,1) === "+"){
+                wNum = wNum.substring(1);
+            }
+            if(wNum.substring(0,1) === "0"){
+                wNum = wNum.substring(1);
+            }
+            wNum = "+263" + wNum;
+        }else{
+            if(wNum.substring(0,1) === "+"){
+                wNum = wNum.substring(1);
+            }
+            if(wNum.substring(0,3) === "263"){
+                wNum = wNum.substring(3);
+            }
+            wNum = "+" + wNum;
+        }
+        setIsZim(!isZim);
+        setUser({ ...user, whatsapp: wNum });
+    };
 
     const handleSubmit = (e:React.MouseEvent<HTMLButtonElement, MouseEvent>) =>{
         e.preventDefault();
@@ -32,6 +58,7 @@ export default function Register(){
         .catch((err) => {
           console.log(err);
           if (err.response) {
+            toast.error("Registeration failed");
             setErrors(err.response.data);
           } else toast.error("Something Bad Happened");
         })
@@ -82,12 +109,23 @@ export default function Register(){
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
                             id="userwhatsapp" 
                             type="text" 
-                            placeholder="1-212-736-5000"
+                            placeholder="+263 00 000 0000"
                             disabled={fetching} 
                             value={user.whatsapp}
                             onChange={(e) => {setUser({ ...user, whatsapp: e.target.value })}} 
                         />
                         <p className="text-red-500 text-xs italic">{errors.whatsapp}</p>
+                        <input
+                            className="shadow border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="isZimbabwe"
+                            type="checkbox"
+                            disabled = {fetching}
+                            onChange = {(e) => {changeZimbabweNumber()}}
+                            checked = {isZim?true:false}
+                        />
+                        <span className="ml-1 text-black text-xs">
+                            Zimbabwe Number
+                        </span>
                     </div>
                     <div className="mb-6">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
@@ -117,7 +155,7 @@ export default function Register(){
                     </div>
                 </form>
                 <p className="text-center text-gray-500 text-xs">
-                    &copy;2022 Mujiba. All rights reserved.
+                    &copy;2023 Mujiba. All rights reserved.
                 </p>
             </div>
         </Auth>

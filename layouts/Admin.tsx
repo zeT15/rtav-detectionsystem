@@ -71,6 +71,7 @@ export default function Admin({ children, layoutData, flag }: InferProps<typeof 
         </>
     )
 }
+
 export const SetModal = (props:any) => {
     const [price, setPrice] = React.useState('');
     const { isshow, close, priceModalOpen} = props;
@@ -94,23 +95,24 @@ export const SetModal = (props:any) => {
         onClose={close}
         aria-labelledby="responsive-dialog-title"
         >
-      <DialogContent sx={DialogContentStyle}>
-        <Typography style={DialogPartStyle} id="modal-modal-title" variant="h6" component="h2">
-            Fee Setting
-        </Typography>
-        <br/>
-        <TextField style={DialogPartStyle}
-          required
-          id="outlined-required"
-          label="Set Fee (%)"
-          value={price} onChange={(e) => pricechange(e)}
-          />
-          <br/>
-        <Button style={DialogPartStyle} onClick={priceSet}>Change</Button>
-      </DialogContent>
-    </Dialog>
-)
+            <DialogContent sx={DialogContentStyle}>
+                <Typography style={DialogPartStyle} id="modal-modal-title" variant="h6" component="h2">
+                    Fee Setting
+                </Typography>
+                <br/>
+                <TextField style={DialogPartStyle}
+                required
+                id="outlined-required"
+                label="Set Fee (%)"
+                value={price} onChange={(e) => pricechange(e)}
+                />
+                <br/>
+                <Button style={DialogPartStyle} onClick={priceSet}>Change</Button>
+            </DialogContent>
+            </Dialog>
+        )
 }
+
 export const CarModal = (props:any) => {
     const [carnumber, setCarnumber] = React.useState('');
     const [carownerPhone, setCarownerPhone] = React.useState('');
@@ -161,32 +163,32 @@ export const CarModal = (props:any) => {
         onClose={close}
         aria-labelledby="responsive-dialog-title"
         >
-      <DialogContent 
-        sx={DialogContentStyle}
-      >
-        <Typography style={DialogPartStyle} id="modal-modal-title" variant="h6" component="h2">
-            Car Register
-        </Typography>
-        <TextField style={DialogPartStyle}
-          required
-          id="outlined-required"
-          label="Car Number"
-          value={carnumber} onChange={(e) => carnumberSet(e)}
-        />
+            <DialogContent 
+                sx={DialogContentStyle}
+            >
+                <Typography style={DialogPartStyle} id="modal-modal-title" variant="h6" component="h2">
+                    Car Register
+                </Typography>
+                <TextField style={DialogPartStyle}
+                required
+                id="outlined-required"
+                label="Car Number"
+                value={carnumber} onChange={(e) => carnumberSet(e)}
+                />
 
-        <TextField style={DialogPartStyle}
-          required
-          id="outlined-required"
-          label="Owner WhatsApp Number"
-          value={carownerPhone} onChange={(e) => carownerPhoneSet(e)}
-        />        
-        {/* <InputLabel>Car Number: <Input type="text" className="px-4 border-2 border-blue-500 hover:border-blue-700 focus:border-blue-700" placeholder="Enter car number" value={carnumber} onChange={(e) => carnumberSet(e)}></Input></InputLabel> */}
-        {/* <InputLabel>Owner Whatsapp<Input type="number" className="px-4 border-2 border-blue-500 hover:border-blue-700 focus:border-blue-700" placeholder="Enter owner number" value={carownerPhone} onChange={(e) => carownerPhoneSet(e)}></Input></InputLabel> */}
-        <br/>
-        <Button style={DialogPartStyle} onClick={carRegister}>Register</Button>
-      </DialogContent> 
-    </Dialog>
-)
+                <TextField style={DialogPartStyle}
+                required
+                id="outlined-required"
+                label="Owner WhatsApp Number"
+                value={carownerPhone} onChange={(e) => carownerPhoneSet(e)}
+                />        
+                {/* <InputLabel>Car Number: <Input type="text" className="px-4 border-2 border-blue-500 hover:border-blue-700 focus:border-blue-700" placeholder="Enter car number" value={carnumber} onChange={(e) => carnumberSet(e)}></Input></InputLabel> */}
+                {/* <InputLabel>Owner Whatsapp<Input type="number" className="px-4 border-2 border-blue-500 hover:border-blue-700 focus:border-blue-700" placeholder="Enter owner number" value={carownerPhone} onChange={(e) => carownerPhoneSet(e)}></Input></InputLabel> */}
+                <br/>
+                <Button style={DialogPartStyle} onClick={carRegister}>Register</Button>
+            </DialogContent> 
+        </Dialog>
+    );
 }
 
 Admin.propTypes = {

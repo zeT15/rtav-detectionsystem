@@ -86,13 +86,13 @@ export default function Login(){
                         </button>
                         <p className="text-black text-xs">
                             <Link href="/auth/register" className="text-orange-700">
-                                Not Yet Registered?
+                                Not yet registered?
                             </Link>
                         </p>
                     </div>
                 </form>
                 <p className="text-center text-gray-500 text-xs">
-                    &copy;2022 Mujiba. All rights reserved.
+                    &copy;2023 Mujiba. All rights reserved.
                 </p>
             </div>
         </Auth>

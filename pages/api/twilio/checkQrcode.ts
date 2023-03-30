@@ -3,6 +3,7 @@ import Report from "../../../models/report";
 import twilio from 'twilio';
 const accountSid = <string>process.env.TWILIO_ACCOUNT_SID;
 const token = <string>process.env.TWILIO_AUTH_TOKEN;
+const whatsapp = <string>process.env.TWILIO_NUMBER;
 import mongoose from 'mongoose';
 const QRCode = require('qrcode');
 const client = twilio(accountSid, token);
@@ -55,9 +56,9 @@ const handler = async function handler(req: NextApiRequest, res: NextApiResponse
                 client.messages
                 .create({
                     body: 'Here is your QR code:',
-                    from: 'whatsapp:+15077347788',
+                    from: 'whatsapp:' + whatsapp,
                     // to: 'whatsapp:YOUR_REGISTERED_NUMBER',
-                    to: 'whatsapp:+'+report[0].carreporter[0].whatsapp.replace(/\D/g, ''),
+                    to: 'whatsapp:+' + report[0].carreporter[0].whatsapp.replace(/\D/g, ''),
                     mediaUrl: url,
                 })
                 .then((message) => console.log(message.sid))

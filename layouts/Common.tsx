@@ -100,8 +100,9 @@ export default function Common ({children, layoutData}:InferProps<typeof Common.
 
     return (
         <>
-                {layoutData?.user&&
-                <div className="w-full">
+            {
+            layoutData?.user&&
+            <div className="w-full">
                 <div className="w-10/12 lg:w-9/12 mx-auto mt-8 divide-y">
                     <div className="w-100 flex justify-between my-1 p-1">
                         <h1 className="font-sans text-2xl font-semibold text-emerald-600 md:text-3xl lg:text-4xl">{`Hi 👋 ${layoutData?.user?.name}`}</h1>

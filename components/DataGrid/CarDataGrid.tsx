@@ -58,7 +58,7 @@ function EditToolbar(props: EditToolbarProps) {
 const formatRows: GridRowsProp= [];
 
 export default function ReportDataGrid(props:any) {
-
+  console.log(props.data);
   const [open, setOpen] = React.useState(false);
   const[videopath, setVideopath] = React.useState({fpath:"", ftype:""});
 

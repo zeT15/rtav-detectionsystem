@@ -2,9 +2,8 @@ import User from "../../../models/user";
 import signupValidator from "../../../validators/auth/signupValidator";
 import bcrypt from "bcryptjs";
 
-const handler = async function handler(req:any, res:any) {
+const handler = async function (req:any, res:any) {
   if (req.method == "POST") {
-    console.log(req.body);
     let errors = signupValidator(req.body);
     if (errors) return res.status(400).json(errors);
     let user = await User.findOne({
@@ -40,7 +39,6 @@ const handler = async function handler(req:any, res:any) {
       usertype: "admin"
     });
     await admin.save();
-
     return res.status(200).send("Login");
   }
   return res.status(404).send("");
